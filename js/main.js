@@ -250,14 +250,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const parts = rawDate.split(sep);
       if (parts.length !== 3) continue;
       let y, m, d;
-      if (parseInt(parts[0], 10) > 31) {
+      if (sep === '/') {
+        // DD/MM/YYYY เสมอ (ไทยใช้แบบนี้)
+        d = parseInt(parts[0], 10); m = parseInt(parts[1], 10); y = parseInt(parts[2], 10);
+      } else if (parseInt(parts[0], 10) > 31) {
         // YYYY-MM-DD
         y = parseInt(parts[0], 10); m = parseInt(parts[1], 10); d = parseInt(parts[2], 10);
-      } else if (parseInt(parts[2], 10) > 31) {
-        // DD/MM/YYYY ← Sheet ใช้แบบนี้
-        d = parseInt(parts[0], 10); m = parseInt(parts[1], 10); y = parseInt(parts[2], 10);
       } else {
-        m = parseInt(parts[0], 10); d = parseInt(parts[1], 10); y = parseInt(parts[2], 10);
+        // DD-MM-YYYY
+        d = parseInt(parts[0], 10); m = parseInt(parts[1], 10); y = parseInt(parts[2], 10);
       }
       if (isNaN(y) || isNaN(m) || isNaN(d)) continue;
 
