@@ -177,7 +177,11 @@ document.addEventListener('DOMContentLoaded', () => {
       /* Sheet 2 — holiday / special → เติม Sets + merge เข้า dateStatusMap */
       if (resSpecial.ok) {
         const csv2 = await resSpecial.text();
+        console.log('✅ Sheet 2 fetched, length =', csv2.length);
         parseSpecialDays(csv2);
+        console.log('✅ dateStatusMap size after merge =', dateStatusMap.size);
+      } else {
+        console.error('❌ Sheet 2 fetch failed:', resSpecial.status);
       }
 
       renderCalendar();
@@ -233,6 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
     PUBLIC_HOLIDAYS.clear();
     SPECIAL_DATES.clear();
     const lines = csv.trim().split('\n');
+    console.log('🗓️ parseSpecialDays: total lines =', lines.length);
+    console.log('🗓️ raw CSV first 3 lines:', lines.slice(0,3));
     for (let i = 1; i < lines.length; i++) {
       const cols    = lines[i].split(',');
       const rawDate = (cols[0] || '').trim().replace(/"/g, '');
@@ -259,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const mapKey  = `${y}-${m}-${d}`;
 
       const note2 = (cols[1] || '').trim().replace(/"/g, '');
+      console.log(`📌 parsed: y=${y} m=${m} d=${d} type=${type} note=${note2} mapKey=${mapKey}`);
       if (type === 'holiday') {
         PUBLIC_HOLIDAYS.add(isoKey);
         if (!dateStatusMap.has(mapKey)) dateStatusMap.set(mapKey, { status: 'holiday', note: note2 });
