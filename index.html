@@ -302,7 +302,7 @@
 
         <!-- Day headers -->
         <div class="cal-day-headers">
-          <span>อา</span><span>จ</span><span>อ</span><span>พ</span><span>พฤ</span><span>ศ</span><span class="cal-sat">ส</span>
+          <span class="cal-sun">อา</span><span>จ</span><span>อ</span><span>พ</span><span>พฤ</span><span>ศ</span><span class="cal-sat">ส</span>
         </div>
 
         <!-- Calendar grid — JS will fill this -->
@@ -312,6 +312,12 @@
         <div class="cal-status" id="calStatus">
           <span class="cal-status-icon">✨</span>
           <span id="calStatusText">เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง</span>
+        </div>
+
+        <!-- วันหยุดในเดือนนี้ -->
+        <div class="cal-holiday-list" id="calHolidayList" style="display:none;">
+          <div class="cal-holiday-list-title">📅 วันหยุดเดือนนี้</div>
+          <ul class="cal-holiday-list-items" id="calHolidayListItems"></ul>
         </div>
       </div>
       </div><!-- end cal-layout -->

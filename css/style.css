@@ -1678,9 +1678,8 @@ ul { list-style: none; }
   padding: 6px 0;
 }
 
-.cal-day-headers .cal-sat {
-  color: var(--accent);
-}
+.cal-day-headers .cal-sun { color: #e53935; }
+.cal-day-headers .cal-sat { color: #1565c0; }
 
 /* Calendar grid */
 .cal-grid {
@@ -3925,3 +3924,68 @@ ul { list-style: none; }
 
 /* Legend holiday dot */
 .leg-holiday { background: #ffa600; border: 2px solid #e67e00; }
+
+/* ปฏิทิน — วันอาทิตย์สีแดง วันเสาร์สีน้ำเงิน (ตัวเลขในกริด) */
+.cal-day.dp-sunday, .cal-grid .cal-day:nth-child(7n+1):not(.cal-empty):not(.cal-booked):not(.cal-hold):not(.cal-special):not(.cal-holiday-sheet):not(.cal-past):not(.cal-today):not(.cal-selected) {
+  color: #e53935;
+}
+.cal-day.dp-saturday, .cal-grid .cal-day:nth-child(7n):not(.cal-empty):not(.cal-booked):not(.cal-hold):not(.cal-special):not(.cal-holiday-sheet):not(.cal-past):not(.cal-today):not(.cal-selected) {
+  color: #1565c0;
+}
+
+/* ============================================================
+   CALENDAR — Holiday List (แสดงชื่อวันหยุดใต้ปฏิทิน)
+   ============================================================ */
+.cal-holiday-list {
+  margin-top: 14px;
+  background: white;
+  border-radius: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0,180,216,0.15);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.cal-holiday-list-title {
+  font-family: var(--font-main);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+
+.cal-holiday-list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  list-style: none;
+}
+
+.cal-holiday-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.hli-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cal-holiday-item-holiday .hli-dot { background: #ffa600; }
+.cal-holiday-item-special  .hli-dot { background: #9b59b6; }
+
+.hli-date {
+  font-weight: 700;
+  min-width: 52px;
+  color: var(--dark2);
+}
+
+.cal-holiday-item-holiday .hli-date { color: #e67e00; }
+.cal-holiday-item-special  .hli-date { color: #8e44ad; }
+
+.hli-name { color: var(--text); }

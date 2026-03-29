@@ -222,7 +222,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (isNaN(y) || isNaN(m) || isNaN(d)) continue;
 
-      map.set(`${y}-${m}-${d}`, status);
+      const note = (cols[1] || '').trim().replace(/"/g, '');
+      map.set(`${y}-${m}-${d}`, { status, note });
     }
     return map;
   }
@@ -244,22 +245,26 @@ document.addEventListener('DOMContentLoaded', () => {
       if (parts.length !== 3) continue;
       let y, m, d;
       if (parseInt(parts[0], 10) > 31) {
+        // YYYY-MM-DD
         y = parseInt(parts[0], 10); m = parseInt(parts[1], 10); d = parseInt(parts[2], 10);
-      } else {
+      } else if (parseInt(parts[2], 10) > 31) {
+        // DD/MM/YYYY ← Sheet ใช้แบบนี้
         d = parseInt(parts[0], 10); m = parseInt(parts[1], 10); y = parseInt(parts[2], 10);
+      } else {
+        m = parseInt(parts[0], 10); d = parseInt(parts[1], 10); y = parseInt(parts[2], 10);
       }
       if (isNaN(y) || isNaN(m) || isNaN(d)) continue;
 
       const isoKey  = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const mapKey  = `${y}-${m}-${d}`;
 
+      const note2 = (cols[1] || '').trim().replace(/"/g, '');
       if (type === 'holiday') {
         PUBLIC_HOLIDAYS.add(isoKey);
-        /* ถ้ายังไม่มีการจอง ให้แสดงสี holiday ในปฏิทิน */
-        if (!dateStatusMap.has(mapKey)) dateStatusMap.set(mapKey, 'holiday');
+        if (!dateStatusMap.has(mapKey)) dateStatusMap.set(mapKey, { status: 'holiday', note: note2 });
       } else if (type === 'special') {
         SPECIAL_DATES.add(isoKey);
-        if (!dateStatusMap.has(mapKey)) dateStatusMap.set(mapKey, 'special');
+        if (!dateStatusMap.has(mapKey)) dateStatusMap.set(mapKey, { status: 'special', note: note2 });
       }
     }
   }
@@ -285,8 +290,16 @@ document.addEventListener('DOMContentLoaded', () => {
     return type === 'weekend' || type === 'holiday' || type === 'special';
   }
 
-  function getSheetStatus(y, m, d) {
+  function getSheetEntry(y, m, d) {
     return dateStatusMap.get(`${y}-${m + 1}-${d}`) || null;
+  }
+  function getSheetStatus(y, m, d) {
+    const e = getSheetEntry(y, m, d);
+    return e ? (typeof e === 'object' ? e.status : e) : null;
+  }
+  function getSheetNote(y, m, d) {
+    const e = getSheetEntry(y, m, d);
+    return e ? (typeof e === 'object' ? e.note : '') : '';
   }
   function isBooked(y, m, d) {
     const s = getSheetStatus(y, m, d);
@@ -320,6 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const cell = document.createElement('div');
       cell.className = 'cal-day';
       cell.textContent = d;
+      const dow = new Date(viewYear, viewMonth, d).getDay();
+      if (dow === 0) cell.classList.add('dp-sunday');
+      if (dow === 6) cell.classList.add('dp-saturday');
 
       if (isPast(viewYear, viewMonth, d)) {
         cell.classList.add('cal-past');
@@ -346,6 +362,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
       calGrid.appendChild(cell);
     }
+  }
+
+  /* แสดงรายชื่อวันหยุดในเดือนที่กำลังดู */
+  function renderHolidayList() {
+    const listEl  = document.getElementById('calHolidayList');
+    const itemsEl = document.getElementById('calHolidayListItems');
+    if (!listEl || !itemsEl) return;
+
+    const THAI_MONTHS_SHORT = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.',
+                               'ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+    const holidays = [];
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const status = getSheetStatus(viewYear, viewMonth, d);
+      const note   = getSheetNote(viewYear, viewMonth, d);
+      if ((status === 'holiday' || status === 'special') && note) {
+        holidays.push({ d, status, note });
+      }
+    }
+
+    if (holidays.length === 0) {
+      listEl.style.display = 'none';
+      return;
+    }
+
+    itemsEl.innerHTML = '';
+    holidays.forEach(({ d, status, note }) => {
+      const li = document.createElement('li');
+      li.className = `cal-holiday-item cal-holiday-item-${status}`;
+      li.innerHTML = `<span class="hli-dot"></span><span class="hli-date">${d} ${THAI_MONTHS_SHORT[viewMonth]}</span><span class="hli-name">${note}</span>`;
+      itemsEl.appendChild(li);
+    });
+
+    listEl.style.display = 'block';
   }
 
   function onDayClick(d, cell) {
