@@ -1739,10 +1739,7 @@ ul { list-style: none; }
   border-radius: 50%;
 }
 
-.cal-day.cal-weekend {
-  color: var(--accent);
-  font-weight: 600;
-}
+.cal-day.cal-weekend { /* ศ.ส. ปกติ */ }
 
 .cal-day.cal-selected {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -2312,9 +2309,7 @@ ul { list-style: none; }
   border-color: #ffb3ad !important;
 }
 
-.cal-day.cal-weekend {
-  border-color: #ffd8c0 !important;
-}
+.cal-day.cal-weekend { /* ศ.ส. ปกติ */ }
 
 .cal-day.cal-past {
   border-color: transparent !important;
@@ -2706,7 +2701,7 @@ ul { list-style: none; }
 
 /* ---------- Calendar dots — แยกสีชัดเจน ---------- */
 .leg-booked    { background: #e53935; border: 2px solid #c62828; }
-.leg-weekend   { background: #ffd54f; border: 2px solid #ffb300; }
+.leg-weekend   { background: #e0e0e0; border: 2px solid #bdbdbd; } /* ศ.ส. ปกติ */
 
 .cal-day.cal-booked {
   background: #ffebee !important;
@@ -2721,11 +2716,7 @@ ul { list-style: none; }
   height: 6px !important;
 }
 
-.cal-day.cal-weekend {
-  color: #e65100 !important;
-  border-color: #ffd54f !important;
-  background: #fffde7 !important;
-}
+.cal-day.cal-weekend { /* ศ.ส. ปกติ */ }
 
 /* ============================================================
    SESSION 4 — ฟอร์มจอง + LINE
@@ -3772,3 +3763,165 @@ ul { list-style: none; }
   .footer-inner { grid-template-columns: 1fr; padding: 0 20px 40px; gap: 28px; }
   .footer-bottom { padding: 16px 20px; flex-direction: column; text-align: center; }
 }
+
+/* ============================================================
+   CUSTOM DATE PICKER — อา. จ. อ. พ. พฤ. ศ. ส.
+   ============================================================ */
+
+.dp-wrap { position: relative; width: 100%; }
+
+.dp-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border: 2px solid #e0f3fa;
+  border-radius: 12px;
+  background: #f8fdff;
+  cursor: pointer;
+  transition: var(--transition);
+  user-select: none;
+}
+.dp-display:hover,
+.dp-display:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(0,180,216,0.10); }
+.dp-display.dp-open { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(0,180,216,0.10); }
+.dp-display.error { border-color: #e53935; background: #fff5f5; }
+
+.dp-display-text { font-family: var(--font-body); font-size: 0.9rem; color: #aac; }
+.dp-display-text.dp-has-value { color: var(--text); }
+
+/* Popup */
+.dp-popup {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 500;
+  background: white;
+  border: 2px solid rgba(0,180,216,0.20);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+  width: 280px;
+  animation: dpFadeIn 0.15s ease;
+}
+@keyframes dpFadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+
+/* Nav */
+.dp-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.dp-nav-btn {
+  background: none; border: none; cursor: pointer;
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: var(--primary-dark);
+  transition: var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.dp-nav-btn:hover { background: var(--bg-light); }
+
+.dp-month-label {
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--dark2);
+}
+
+/* Day headers อา–ส */
+.dp-dow-headers {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
+.dp-dow-headers span {
+  font-family: var(--font-main);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-light);
+  text-align: center;
+  padding: 4px 0;
+}
+.dp-dow-headers span:first-child { color: #e53935; } /* อา — สีแดง */
+.dp-dow-headers span:last-child  { color: #1565c0; } /* ส — สีน้ำเงิน */
+
+/* Grid */
+.dp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.dp-day {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  text-align: center;
+  padding: 6px 2px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+  color: var(--text);
+  border: none;
+  background: none;
+  width: 100%;
+}
+.dp-day:hover:not(.dp-disabled):not(.dp-selected) { background: var(--bg-light); }
+.dp-day.dp-today { font-weight: 700; color: var(--primary-dark); }
+.dp-day.dp-selected { background: var(--primary); color: white; font-weight: 700; }
+.dp-day.dp-disabled { color: #ccc; cursor: not-allowed; }
+.dp-day.dp-sunday { color: #e53935; }
+.dp-day.dp-saturday { color: #1565c0; }
+.dp-day.dp-selected.dp-sunday,
+.dp-day.dp-selected.dp-saturday { color: white; }
+.dp-day.dp-empty { pointer-events: none; }
+
+/* ============================================================
+   CALENDAR — Status สีจาก Google Sheet
+   ============================================================ */
+
+/* Hold — รอยืนยัน (ส้ม) */
+.cal-day.cal-hold {
+  background: #fff0f5 !important;
+  color: #e91e8c !important;
+  border-color: #ffb3d1 !important;
+  font-weight: 700 !important;
+}
+.cal-day.cal-hold::after {
+  background: #ffb3d1 !important;
+  width: 6px !important; height: 6px !important;
+}
+
+/* Special จาก Sheet — ปีใหม่/สงกรานต์ (ม่วง) */
+.cal-day.cal-special {
+  background: #f3e8ff !important;
+  color: #8e44ad !important;
+  border: 2px solid #9b59b6 !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+}
+.cal-day.cal-special::after {
+  background: #9b59b6 !important;
+  width: 6px !important; height: 6px !important;
+}
+
+/* Holiday จาก Sheet — นักขัตฤกษ์ (เหลือง) */
+.cal-day.cal-holiday-sheet {
+  background: #fff8e1 !important;
+  color: #e67e00 !important;
+  border: 2px solid #ffa600 !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+}
+.cal-day.cal-holiday-sheet::after {
+  background: #ffa600 !important;
+  width: 6px !important; height: 6px !important;
+}
+
+/* Legend — เพิ่ม hold + special */
+.leg-hold    { background: #ffb3d1; border: 2px solid #e91e8c; }
+.leg-special { background: #9b59b6; border: 2px solid #8e44ad; }
+
+/* Legend holiday dot */
+.leg-holiday { background: #ffa600; border: 2px solid #e67e00; }

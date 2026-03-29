@@ -115,11 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 (function initCalendar() {
 
-  /* ★ แก้ตรงนี้เท่านั้น — วาง URL จาก "Publish to web → CSV" */
-  const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTLmiNIZoecy9P1JOnri-81-MMXB0qmWTXnRB0wBYC-diyk2an7gnMcguro4WzwOQ/pub?gid=1085240737&single=true&output=csv';
-  /* ตัวอย่าง:
-     'https://docs.google.com/spreadsheets/d/1aBcD.../pub?gid=0&single=true&output=csv'
-  */
+  /* ★ Sheet 1 — การจอง (booked / hold) */
+  const BOOKINGS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTLmiNIZoecy9P1JOnri-81-MMXB0qmWTXnRB0wBYC-diyk2an7gnMcguro4WzwOQ/pub?gid=1085240737&single=true&output=csv';
+
+  /* ★ Sheet 2 — วันหยุดพิเศษ (holiday / special) */
+  const SPECIAL_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR4AH7ZcEOX9TwF37rDtd78DWEzKSrtLOe-ViddgC4ZuvZ3t-M0tqomuREregstEw/pub?gid=2023050670&single=true&output=csv';
 
   /* ราคา 4 แบบ (บาท/คืน) */
   const PRICE = {
@@ -129,21 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
     special: 11900,  // ปีใหม่ / สงกรานต์
   };
 
-  /* วันหยุดนักขัตฤกษ์ — เพิ่ม/ลบได้ตรงนี้ format YYYY-MM-DD */
-  const PUBLIC_HOLIDAYS = new Set([
-    '2025-12-31','2026-01-01','2026-01-02',   // ปีใหม่
-    '2026-04-13','2026-04-14','2026-04-15','2026-04-16', // สงกรานต์
-    '2025-10-13', // วันคล้ายวันสวรรคต ร.9
-    '2025-10-23', // วันปิยมหาราช
-    '2025-12-05', // วันพ่อ
-    '2025-12-10', // วันรัฐธรรมนูญ
-  ]);
-
-  /* วันพิเศษ (ปีใหม่/สงกรานต์) */
-  const SPECIAL_DATES = new Set([
-    '2025-12-31','2026-01-01','2026-01-02',
-    '2026-04-13','2026-04-14','2026-04-15','2026-04-16',
-  ]);
+  /* วันหยุดจาก Sheet 2 — โหลดอัตโนมัติ ไม่ต้อง hardcode */
+  const PUBLIC_HOLIDAYS = new Set();
+  const SPECIAL_DATES   = new Set();
 
   const THAI_MONTHS = [
     'มกราคม','กุมภาพันธ์','มีนาคม','เมษายน',
@@ -165,78 +153,115 @@ document.addEventListener('DOMContentLoaded', () => {
   let viewMonth = now.getMonth();
   let selectedCell = null;
 
-  /* วันที่จอง — Set ของ 'YYYY-M-D' */
-  let bookedSet = new Set();
+  /* วันที่จาก Sheet — Map ของ 'YYYY-M-D' → status */
+  let dateStatusMap = new Map();
 
-  /* ══ ดึงข้อมูลจาก Google Sheets CSV ══════════════════════ */
+  /* ══ ดึงข้อมูลจาก 2 Google Sheets พร้อมกัน ══════════════ */
   async function fetchBookings() {
     showLoadingState();
-
-    /* ถ้ายังไม่ได้ตั้ง URL → ใช้ fallback ว่างเปล่า */
-    if (!SHEET_CSV_URL || SHEET_CSV_URL.includes('YOUR_GOOGLE')) {
-      bookedSet = new Set();
-      renderCalendar();
-      setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
-      return;
-    }
+    const bust = Date.now();
 
     try {
-      /* เติม cache-bust เพื่อได้ข้อมูลล่าสุดเสมอ */
-      const url = `${SHEET_CSV_URL}&cachebust=${Date.now()}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('fetch failed');
+      /* ดึงทั้ง 2 Sheet พร้อมกัน */
+      const [resBookings, resSpecial] = await Promise.all([
+        fetch(`${BOOKINGS_URL}&cachebust=${bust}`),
+        fetch(`${SPECIAL_URL}&cachebust=${bust}`)
+      ]);
 
-      const csv  = await res.text();
-      bookedSet  = parseCSV(csv);
+      /* Sheet 1 — booked / hold */
+      if (resBookings.ok) {
+        const csv = await resBookings.text();
+        dateStatusMap = parseCSV(csv);
+      }
+
+      /* Sheet 2 — holiday / special → เติม Sets + merge เข้า dateStatusMap */
+      if (resSpecial.ok) {
+        const csv2 = await resSpecial.text();
+        parseSpecialDays(csv2);
+      }
+
       renderCalendar();
       setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
 
     } catch (err) {
       console.warn('PAP Calendar: โหลดข้อมูลไม่ได้ —', err);
-      bookedSet = new Set();
+      dateStatusMap = new Map();
       renderCalendar();
       setStatus('error', '⚠️ โหลดข้อมูลวันว่างไม่ได้ · กรุณาติดต่อสอบถามโดยตรง');
     }
   }
 
-  /* แปลง CSV → Set ของ 'YYYY-M-D' */
+  /* แปลง CSV → Map ของ 'YYYY-M-D' → status */
   function parseCSV(csv) {
-    const set   = new Set();
+    const map   = new Map();
     const lines = csv.trim().split('\n');
     /* ข้าม header row */
     for (let i = 1; i < lines.length; i++) {
-      const cols   = lines[i].split(',');
+      const cols    = lines[i].split(',');
       const rawDate = (cols[0] || '').trim().replace(/"/g, '');
       const status  = (cols[2] || '').trim().toLowerCase().replace(/"/g, '');
 
       if (!rawDate) continue;
-      if (status !== 'booked' && status !== 'hold') continue;
+      const validStatuses = ['booked', 'hold', 'holiday', 'special'];
+      if (!validStatuses.includes(status)) continue;
 
-      /* รองรับหลาย format อัตโนมัติ
-         YYYY-MM-DD / YYYY-M-D  → 2025-08-10
-         DD-MM-YYYY / D-M-YYYY  → 10-08-2025
-         DD/MM/YYYY             → 10/08/2025  */
+      /* รองรับหลาย format: YYYY-MM-DD, DD/MM/YYYY, DD-MM-YYYY */
       const sep   = rawDate.includes('/') ? '/' : '-';
       const parts = rawDate.split(sep);
       if (parts.length !== 3) continue;
 
       let y, m, d;
       if (parseInt(parts[0], 10) > 31) {
-        // YYYY-MM-DD
         y = parseInt(parts[0], 10);
         m = parseInt(parts[1], 10);
         d = parseInt(parts[2], 10);
       } else {
-        // DD-MM-YYYY
         d = parseInt(parts[0], 10);
         m = parseInt(parts[1], 10);
         y = parseInt(parts[2], 10);
       }
       if (isNaN(y) || isNaN(m) || isNaN(d)) continue;
 
-      set.add(`${y}-${m}-${d}`);
+      map.set(`${y}-${m}-${d}`, status);
     }
-    return set;
+    return map;
+  }
+
+  /* แปลง Sheet 2 CSV → เติม PUBLIC_HOLIDAYS / SPECIAL_DATES + merge ใน dateStatusMap */
+  function parseSpecialDays(csv) {
+    PUBLIC_HOLIDAYS.clear();
+    SPECIAL_DATES.clear();
+    const lines = csv.trim().split('\n');
+    for (let i = 1; i < lines.length; i++) {
+      const cols    = lines[i].split(',');
+      const rawDate = (cols[0] || '').trim().replace(/"/g, '');
+      const type    = (cols[2] || '').trim().toLowerCase().replace(/"/g, '');
+      if (!rawDate || !type) continue;
+
+      /* parse date */
+      const sep   = rawDate.includes('/') ? '/' : '-';
+      const parts = rawDate.split(sep);
+      if (parts.length !== 3) continue;
+      let y, m, d;
+      if (parseInt(parts[0], 10) > 31) {
+        y = parseInt(parts[0], 10); m = parseInt(parts[1], 10); d = parseInt(parts[2], 10);
+      } else {
+        d = parseInt(parts[0], 10); m = parseInt(parts[1], 10); y = parseInt(parts[2], 10);
+      }
+      if (isNaN(y) || isNaN(m) || isNaN(d)) continue;
+
+      const isoKey  = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const mapKey  = `${y}-${m}-${d}`;
+
+      if (type === 'holiday') {
+        PUBLIC_HOLIDAYS.add(isoKey);
+        /* ถ้ายังไม่มีการจอง ให้แสดงสี holiday ในปฏิทิน */
+        if (!dateStatusMap.has(mapKey)) dateStatusMap.set(mapKey, 'holiday');
+      } else if (type === 'special') {
+        SPECIAL_DATES.add(isoKey);
+        if (!dateStatusMap.has(mapKey)) dateStatusMap.set(mapKey, 'special');
+      }
+    }
   }
 
   function showLoadingState() {
@@ -260,8 +285,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return type === 'weekend' || type === 'holiday' || type === 'special';
   }
 
+  function getSheetStatus(y, m, d) {
+    return dateStatusMap.get(`${y}-${m + 1}-${d}`) || null;
+  }
   function isBooked(y, m, d) {
-    return bookedSet.has(`${y}-${m + 1}-${d}`);
+    const s = getSheetStatus(y, m, d);
+    return s === 'booked' || s === 'hold';
   }
 
   function isPast(y, m, d) {
@@ -296,10 +325,19 @@ document.addEventListener('DOMContentLoaded', () => {
         cell.classList.add('cal-past');
       } else if (isToday(viewYear, viewMonth, d)) {
         cell.classList.add('cal-today');
-      } else if (isBooked(viewYear, viewMonth, d)) {
-        cell.classList.add('cal-booked');
-      } else if (isWeekend(viewYear, viewMonth, d)) {
-        cell.classList.add('cal-weekend');
+      } else {
+        const sheetStatus = getSheetStatus(viewYear, viewMonth, d);
+        if (sheetStatus === 'booked') {
+          cell.classList.add('cal-booked');
+        } else if (sheetStatus === 'hold') {
+          cell.classList.add('cal-hold');
+        } else if (sheetStatus === 'special') {
+          cell.classList.add('cal-special');
+        } else if (sheetStatus === 'holiday') {
+          cell.classList.add('cal-holiday-sheet');
+        } else if (isWeekend(viewYear, viewMonth, d)) {
+          cell.classList.add('cal-weekend');
+        }
       }
 
       if (!isPast(viewYear, viewMonth, d)) {
@@ -313,6 +351,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function onDayClick(d, cell) {
     if (cell.classList.contains('cal-booked')) {
       setStatus('booked', `❌ วันที่ ${d} ${THAI_MONTHS[viewMonth]} ${viewYear + 543} — จองแล้ว กรุณาเลือกวันอื่น`);
+      return;
+    }
+    if (cell.classList.contains('cal-hold')) {
+      setStatus('booked', `⏳ วันที่ ${d} ${THAI_MONTHS[viewMonth]} ${viewYear + 543} — รอยืนยัน กรุณาติดต่อสอบถาม`);
       return;
     }
     if (cell.classList.contains('cal-past')) return;
@@ -365,6 +407,187 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* ============================================================
+   CUSTOM DATE PICKER — อา. จ. อ. พ. พฤ. ศ. ส.
+   ============================================================ */
+
+(function () {
+  const MONTHS_TH = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน',
+                     'กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+
+  function toYMD(d) {
+    const dd = new Date(d);
+    return dd.getFullYear() + '-' +
+      String(dd.getMonth()+1).padStart(2,'0') + '-' +
+      String(dd.getDate()).padStart(2,'0');
+  }
+
+  function createPicker(opts) {
+    // opts: { displayId, textId, popupId, gridId, monthId, prevId, nextId, hiddenId, minDateFn, onSelect }
+    const display  = document.getElementById(opts.displayId);
+    const textEl   = document.getElementById(opts.textId);
+    const popup    = document.getElementById(opts.popupId);
+    const grid     = document.getElementById(opts.gridId);
+    const monthLbl = document.getElementById(opts.monthId);
+    const prevBtn  = document.getElementById(opts.prevId);
+    const nextBtn  = document.getElementById(opts.nextId);
+    const hidden   = document.getElementById(opts.hiddenId);
+
+    if (!display) return;
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    let cur = new Date(today.getFullYear(), today.getMonth(), 1);
+    let selectedDate = null;
+    let open = false;
+
+    function renderGrid() {
+      monthLbl.textContent = MONTHS_TH[cur.getMonth()] + ' ' + (cur.getFullYear() + 543);
+      grid.innerHTML = '';
+
+      const firstDay = new Date(cur.getFullYear(), cur.getMonth(), 1).getDay(); // 0=Sun
+      const daysInMonth = new Date(cur.getFullYear(), cur.getMonth()+1, 0).getDate();
+      const minDate = opts.minDateFn ? opts.minDateFn() : today;
+
+      // Empty cells before first day (อา=0, so no offset needed for Sunday start)
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'dp-day dp-empty';
+        grid.appendChild(empty);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const date = new Date(cur.getFullYear(), cur.getMonth(), d);
+        date.setHours(0,0,0,0);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'dp-day';
+        btn.textContent = d;
+
+        const dow = date.getDay();
+        if (dow === 0) btn.classList.add('dp-sunday');
+        if (dow === 6) btn.classList.add('dp-saturday');
+        if (toYMD(date) === toYMD(today)) btn.classList.add('dp-today');
+        if (selectedDate && toYMD(date) === toYMD(selectedDate)) btn.classList.add('dp-selected');
+
+        if (date < minDate) {
+          btn.classList.add('dp-disabled');
+          btn.disabled = true;
+        } else {
+          btn.addEventListener('click', function () {
+            selectedDate = date;
+            hidden.value = toYMD(date);
+            // Format display: d เดือน พ.ศ.
+            textEl.textContent = d + ' ' + MONTHS_TH[cur.getMonth()] + ' ' + (cur.getFullYear()+543);
+            textEl.classList.add('dp-has-value');
+            display.classList.remove('error');
+            document.getElementById(opts.hiddenId.replace('bkCheck','err') + (opts.hiddenId.includes('In') ? 'In' : 'Out'))?.style && null;
+            closePopup();
+            if (opts.onSelect) opts.onSelect(date);
+            // trigger summary update
+            if (typeof updateSummary === 'function') updateSummary();
+            if (typeof updatePreview === 'function') updatePreview();
+          });
+        }
+        grid.appendChild(btn);
+      }
+    }
+
+    function openPopup() {
+      popup.style.display = 'block';
+      display.classList.add('dp-open');
+      open = true;
+      renderGrid();
+    }
+
+    function closePopup() {
+      popup.style.display = 'none';
+      display.classList.remove('dp-open');
+      open = false;
+    }
+
+    display.addEventListener('click', function(e) {
+      e.stopPropagation();
+      open ? closePopup() : openPopup();
+    });
+    display.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open ? closePopup() : openPopup(); }
+      if (e.key === 'Escape') closePopup();
+    });
+
+    prevBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      cur.setMonth(cur.getMonth()-1);
+      renderGrid();
+    });
+    nextBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      cur.setMonth(cur.getMonth()+1);
+      renderGrid();
+    });
+
+    popup.addEventListener('click', function(e) { e.stopPropagation(); });
+
+    return {
+      getDate: () => selectedDate,
+      getValue: () => hidden.value,
+      setMin: (d) => { /* minDateFn handles this dynamically */ }
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const pickerIn = createPicker({
+      displayId: 'dpDisplayIn', textId: 'dpTextIn',
+      popupId: 'dpPopupIn', gridId: 'dpGridIn',
+      monthId: 'dpMonthIn', prevId: 'dpPrevIn', nextId: 'dpNextIn',
+      hiddenId: 'bkCheckIn',
+      minDateFn: function() {
+        const t = new Date(); t.setHours(0,0,0,0); return t;
+      },
+      onSelect: function(date) {
+        // re-render checkout picker if its selected date is now invalid
+        if (pickerOut) {
+          const outVal = document.getElementById('bkCheckOut').value;
+          if (outVal && outVal <= toYMD(date)) {
+            document.getElementById('bkCheckOut').value = '';
+            document.getElementById('dpTextOut').textContent = 'เลือกวันที่...';
+            document.getElementById('dpTextOut').classList.remove('dp-has-value');
+          }
+        }
+      }
+    });
+
+    const pickerOut = createPicker({
+      displayId: 'dpDisplayOut', textId: 'dpTextOut',
+      popupId: 'dpPopupOut', gridId: 'dpGridOut',
+      monthId: 'dpMonthOut', prevId: 'dpPrevOut', nextId: 'dpNextOut',
+      hiddenId: 'bkCheckOut',
+      minDateFn: function() {
+        const inVal = document.getElementById('bkCheckIn').value;
+        if (inVal) {
+          const d = new Date(inVal);
+          d.setDate(d.getDate()+1);
+          d.setHours(0,0,0,0);
+          return d;
+        }
+        const t = new Date(); t.setDate(t.getDate()+1); t.setHours(0,0,0,0); return t;
+      }
+    });
+
+    // Close all pickers on outside click
+    document.addEventListener('click', function() {
+      document.querySelectorAll('.dp-popup').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.dp-display').forEach(d => d.classList.remove('dp-open'));
+    });
+  });
+
+  // expose toYMD for use in minDateFn closure
+  window._dpToYMD = function(d) {
+    return new Date(d).toISOString().split('T')[0];
+  };
+})();
+
+/* ============================================================
    SESSION 4 — ฟอร์มจอง + LINE
    ============================================================ */
 
@@ -373,8 +596,8 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---- helpers ---- */
   const $ = id => document.getElementById(id);
 
-  /* ---- set min date = today ---- */
-  function initDateLimits() {
+  /* ---- set min date = today — handled by custom picker ---- */
+  function initDateLimits() { return; // custom picker handles this
     const today = new Date().toISOString().split('T')[0];
     const checkIn  = $('bkCheckIn');
     const checkOut = $('bkCheckOut');
