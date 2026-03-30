@@ -84,12 +84,12 @@ ul { list-style: none; }
 
 /* Scrolled state */
 #navbar.scrolled .nav-inner {
-  background: rgba(255,255,255,0.97);
+  background: rgba(20, 60, 40, 0.97);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   padding: 12px 40px;
-  box-shadow: 0 2px 20px rgba(0,180,216,0.12);
-  border-bottom: 2px solid var(--primary-light);
+  box-shadow: 0 2px 24px rgba(0, 60, 30, 0.35);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 /* Logo */
@@ -104,7 +104,7 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 
-#navbar.scrolled .nav-logo { color: var(--dark); }
+#navbar.scrolled .nav-logo { color: white; }
 
 .logo-icon {
   font-size: 1.6rem;
@@ -122,7 +122,7 @@ ul { list-style: none; }
   font-weight: 300;
 }
 
-#navbar.scrolled .nav-logo em { color: var(--primary); }
+#navbar.scrolled .nav-logo em { color: var(--primary-light); }
 
 /* Nav links */
 .nav-links {
@@ -145,10 +145,10 @@ ul { list-style: none; }
   color: var(--white);
 }
 
-#navbar.scrolled .nav-links a { color: var(--text); }
+#navbar.scrolled .nav-links a { color: rgba(255,255,255,0.85); }
 #navbar.scrolled .nav-links a:hover {
-  background: var(--bg-light);
-  color: var(--primary);
+  background: rgba(255,255,255,0.15);
+  color: #ffffff;
 }
 
 /* Nav action buttons */
@@ -225,7 +225,7 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 
-#navbar.scrolled .nav-hamburger span { background: var(--dark); }
+#navbar.scrolled .nav-hamburger span { background: white; }
 
 .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
 .nav-hamburger.active span:nth-child(2) { opacity: 0; }
@@ -3625,7 +3625,7 @@ ul { list-style: none; }
   margin: 0 auto;
   padding: 0 40px 48px;
   display: grid;
-  grid-template-columns: 1.8fr 1fr 1.3fr 1.2fr;
+  grid-template-columns: 2fr 1fr 1.4fr;
   gap: 48px;
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
@@ -3662,8 +3662,8 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px; height: 36px;
-  border-radius: 10px;
+  width: 42px; height: 42px;
+  border-radius: 12px;
   text-decoration: none;
   transition: var(--transition);
 }

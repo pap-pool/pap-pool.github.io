@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       renderCalendar();
+      renderHolidayList();
       setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
 
     } catch (err) {
@@ -473,6 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewMonth < 0) { viewMonth = 11; viewYear--; }
     selectedCell = null;
     renderCalendar();
+    renderHolidayList();
     setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
   });
 
@@ -481,6 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewMonth > 11) { viewMonth = 0; viewYear++; }
     selectedCell = null;
     renderCalendar();
+    renderHolidayList();
     setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
   });
 
@@ -792,11 +795,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (note) msg += `📝 หมายเหตุ: ${note}\n`;
     msg += `━━━━━━━━━━━━━━━━━\n`;
-    msg += `📋 นโยบายการยกเลิก\n`;
-    msg += `   · ยกเลิกก่อน 14 วัน → คืนมัดจำ 100%\n`;
-    msg += `   · ยกเลิกก่อน 7 วัน → หักค่าธรรมเนียม 1,000 บาท\n`;
-    msg += `   · ช่วงเทศกาล → ไม่สามารถคืนเงินได้\n`;
-    msg += `   · หลังโอนเงินจอง สามารถเลื่อนวันเข้าพักได้ภายใน 1 ปี\n`;
+    msg += `📋 เมื่อโอนเงินจองแล้ว ขอสงวนสิทธิ์คืนเงิน แต่สามารถเลื่อนวันเข้าพักได้ภายใน 1 ปี\n`;
 
     msg += `✨ PAP Pool Villa · ชะอำ เพชรบุรี`;
 
