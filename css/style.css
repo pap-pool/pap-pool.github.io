@@ -3989,3 +3989,292 @@ ul { list-style: none; }
 .cal-holiday-item-special  .hli-date { color: #8e44ad; }
 
 .hli-name { color: var(--text); }
+
+/* ============================================================
+   TERMS ACCORDION — ข้อตกลงในการเข้าพัก
+   ============================================================ */
+.terms-accordion {
+  margin-top: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(0,180,216,0.15);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.terms-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, var(--dark2), var(--dark));
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition);
+}
+.terms-header:hover { background: linear-gradient(135deg, #1e2a4a, #1a1a2e); }
+
+.terms-title {
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: white;
+}
+
+.terms-arrow {
+  font-size: 0.75rem;
+  color: var(--primary-light);
+  transition: transform 0.3s ease;
+}
+.terms-arrow.open { transform: rotate(180deg); }
+
+.terms-body {
+  display: none;
+  background: white;
+  padding: 20px;
+  display: none;
+}
+.terms-body.open { display: block; }
+
+.terms-group {
+  margin-bottom: 16px;
+}
+.terms-group:last-of-type { margin-bottom: 12px; }
+
+.terms-group-title {
+  font-family: var(--font-main);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(0,180,216,0.15);
+}
+
+.terms-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.terms-list li {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  color: var(--text);
+  line-height: 1.5;
+  padding-left: 14px;
+  position: relative;
+}
+.terms-list li::before {
+  content: '·';
+  position: absolute;
+  left: 4px;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.terms-footer {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--text-light);
+  text-align: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0,180,216,0.10);
+  margin-top: 4px;
+}
+
+/* ============================================================
+   TERMS ALWAYS VISIBLE — ข้อตกลงแสดงตลอด
+   ============================================================ */
+.terms-always {
+  margin-top: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(0,180,216,0.15);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.terms-always-header {
+  padding: 14px 20px;
+  background: linear-gradient(135deg, var(--dark2), var(--dark));
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: white;
+}
+
+.terms-always .terms-group {
+  padding: 0 16px;
+  margin-top: 14px;
+  margin-bottom: 0;
+}
+.terms-always .terms-group:last-of-type { margin-bottom: 14px; }
+
+.terms-always .terms-group-title {
+  font-family: var(--font-main);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(0,180,216,0.15);
+}
+
+.terms-always .terms-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0;
+}
+
+.terms-always .terms-list li {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  color: var(--text);
+  line-height: 1.5;
+  padding-left: 14px;
+  position: relative;
+}
+.terms-always .terms-list li::before {
+  content: '·';
+  position: absolute;
+  left: 4px;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.terms-always .terms-footer {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--text-light);
+  text-align: center;
+  padding: 12px 16px 16px;
+  border-top: 1px solid rgba(0,180,216,0.10);
+  margin: 14px 16px 0;
+}
+
+/* pc-info-card override */
+.pc-info-card {
+  background: white;
+  border-radius: 20px;
+  padding: 22px 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,180,216,0.12);
+}
+
+/* ============================================================
+   PC LAYOUT V2 — ซ้าย: ปฏิทิน+ราคา  ขวา: ข้อตกลง
+   ============================================================ */
+.pc-layout-v2 {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 40px;
+  align-items: start;
+}
+
+.pc-left-v2 { display: flex; flex-direction: column; }
+.pc-right-v2 { position: sticky; top: 100px; }
+
+/* ราคา compact ใน pc-left-v2 */
+.pc-left-v2 .pricing-grid-4 {
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 12px !important;
+  margin-bottom: 16px !important;
+}
+.pc-left-v2 .price-card {
+  padding: 16px 10px 14px !important;
+}
+.pc-left-v2 .price-amount {
+  font-size: 1.5rem !important;
+}
+.pc-left-v2 .price-label {
+  font-size: 0.72rem !important;
+}
+.pc-left-v2 .price-unit {
+  font-size: 0.68rem !important;
+}
+@media (max-width: 760px) {
+  .pc-left-v2 .pricing-grid-4 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* CTA row เล็ก */
+.pc-cta-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, var(--dark2), var(--dark));
+  border-radius: 14px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.pc-cta-label {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.75);
+  white-space: nowrap;
+}
+
+.pc-cta-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.btn-pc-line, .btn-pc-messenger, .btn-pc-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 50px;
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition);
+}
+.btn-pc-line      { background: #06c755; color: white; }
+.btn-pc-line:hover { background: #07e060; transform: translateY(-2px); }
+.btn-pc-messenger  { background: #0084ff; color: white; }
+.btn-pc-messenger:hover { background: #006ccc; transform: translateY(-2px); }
+.btn-pc-call       { background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.2); }
+.btn-pc-call:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .pc-layout-v2 { grid-template-columns: 1fr; gap: 32px; }
+  .pc-right-v2 { position: static; }
+}
+@media (max-width: 560px) {
+  .pc-left-v2 .pricing-grid-4 { grid-template-columns: 1fr 1fr !important; }
+  .pc-cta-row { flex-direction: column; align-items: flex-start; }
+}
+
+/* ฟอร์มจอง — ปุ่มส่ง + note อยู่กึ่งกลาง บรรทัดเดียว */
+.form-submit-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-channel-label {
+  text-align: center;
+}
+
+.form-submit-btns {
+  justify-content: center !important;
+}
+
+.form-submit-note-row {
+  justify-content: center;
+  text-align: center;
+}

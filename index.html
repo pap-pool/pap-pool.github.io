@@ -22,23 +22,12 @@
       <ul class="nav-links">
         <li><a href="#features">สิ่งอำนวยความสะดวก</a></li>
         <li><a href="#rooms">ห้องนอน</a></li>
-        <li><a href="#activities">กิจกรรม</a></li>
-        <li><a href="#gallery">แกลเลอรี่</a></li>
         <li><a href="#pricing">ราคา</a></li>
         <li><a href="#booking">จอง</a></li>
+        <li><a href="#activities">กิจกรรม</a></li>
+        <li><a href="#gallery">แกลเลอรี่</a></li>
         <li><a href="#contact">ติดต่อ</a></li>
       </ul>
-      <div class="nav-actions">
-        <a href="#booking" class="btn-nav-check">📋 จองเลย</a>
-        <a href="https://line.me/ti/p/penta29" target="_blank" class="btn-nav-line">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-          LINE จอง
-        </a>
-        <a href="https://www.facebook.com/pappoolvilla/#" target="_blank" class="btn-nav-messenger">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.652V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111S18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.561 6.963z"/></svg>
-          Messenger
-        </a>
-      </div>
       <button class="nav-hamburger" id="navHamburger" aria-label="เมนู">
         <span></span><span></span><span></span>
       </button>
@@ -47,15 +36,13 @@
     <div class="nav-mobile" id="navMobile">
       <a href="#features" class="mobile-link">สิ่งอำนวยความสะดวก</a>
       <a href="#rooms" class="mobile-link">ห้องนอน</a>
-      <a href="#activities" class="mobile-link">กิจกรรม</a>
-      <a href="#gallery" class="mobile-link">แกลเลอรี่</a>
       <a href="#pricing" class="mobile-link">ราคา</a>
       <a href="#booking" class="mobile-link">จอง</a>
+      <a href="#activities" class="mobile-link">กิจกรรม</a>
+      <a href="#gallery" class="mobile-link">แกลเลอรี่</a>
       <a href="#contact" class="mobile-link">ติดต่อ</a>
       <div class="mobile-actions">
-        <a href="#booking" class="btn-mobile-check">📋 จองเลย</a>
         <a href="https://line.me/ti/p/penta29" target="_blank" class="btn-mobile-line">💬 LINE จอง</a>
-        <a href="https://www.facebook.com/pappoolvilla/#" target="_blank" class="btn-mobile-messenger">💬 Messenger</a>
       </div>
     </div>
   </nav>
@@ -262,10 +249,10 @@
   <!-- ========== PRICING (Session 3) ========== -->
   <!-- ========== CALENDAR (Session 3) ========== -->
   <section id="pricing" class="pricing-calendar-combined">
-    <div class="pc-layout">
+    <div class="pc-layout-v2">
 
-      <!-- ซ้าย: ปฏิทิน -->
-      <div class="pc-left">
+      <!-- ซ้าย: ปฏิทิน + ราคา + CTA -->
+      <div class="pc-left-v2">
         <div id="calendar">
           <div class="section-header">
       <div class="section-tag">📅 Availability</div>
@@ -275,8 +262,6 @@
 
     <div class="calendar-wrap animate-on-scroll">
       <div class="cal-layout">
-
-        <!-- Legend — ด้านซ้าย -->
         <div class="cal-legend-side">
           <div class="leg-title">สัญลักษณ์</div>
           <span class="leg-item"><span class="leg-dot leg-available"></span>ว่าง</span>
@@ -286,10 +271,7 @@
           <span class="leg-item"><span class="leg-dot leg-holiday"></span>นักขัตฤกษ์</span>
           <span class="leg-item"><span class="leg-dot leg-special"></span>ปีใหม่/สงกรานต์</span>
         </div>
-
-      <!-- Calendar UI -->
       <div class="calendar-ui">
-        <!-- Month nav -->
         <div class="cal-nav">
           <button class="cal-nav-btn" id="calPrev" aria-label="เดือนก่อน">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
@@ -299,279 +281,121 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
           </button>
         </div>
-
-        <!-- Day headers -->
         <div class="cal-day-headers">
           <span class="cal-sun">อา</span><span>จ</span><span>อ</span><span>พ</span><span>พฤ</span><span>ศ</span><span class="cal-sat">ส</span>
         </div>
-
-        <!-- Calendar grid — JS will fill this -->
         <div class="cal-grid" id="calGrid"></div>
-
-        <!-- Booking status note -->
         <div class="cal-status" id="calStatus">
           <span class="cal-status-icon">✨</span>
           <span id="calStatusText">เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง</span>
         </div>
-
-        <!-- วันหยุดในเดือนนี้ -->
         <div class="cal-holiday-list" id="calHolidayList" style="display:none;">
           <div class="cal-holiday-list-title">📅 วันหยุดเดือนนี้</div>
           <ul class="cal-holiday-list-items" id="calHolidayListItems"></ul>
         </div>
       </div>
-      </div><!-- end cal-layout -->
-
-
+      </div>
     </div>
         </div>
-      </div>
 
-      <!-- ขวา: ราคา -->
-      <div class="pc-right">
-
-        <div class="section-header compact-header">
+        <!-- ราคา 4 การ์ด -->
+        <div class="section-header compact-header" style="margin-top:32px;">
           <div class="section-tag">💰 Pricing</div>
           <h2 class="section-title">ราคาและแพ็กเกจ</h2>
           <p class="section-desc">เช่าบ้านพักทั้งหลัง · รองรับ 10–12 ท่าน · รวมสิ่งอำนวยความสะดวกทุกอย่าง</p>
         </div>
-
-        <!-- 4 ราคา (ไม่มีปุ่มจอง) -->
         <div class="pricing-grid pricing-grid-4">
-
           <div class="price-card price-weekday animate-on-scroll">
             <div class="price-label">🌤️ อาทิตย์ – พฤหัส</div>
-            <div class="price-main">
-              <span class="price-amount">5,900</span>
-              <span class="price-unit">บาท / คืน</span>
-            </div>
+            <div class="price-main"><span class="price-amount">5,900</span><span class="price-unit">บาท / คืน</span></div>
           </div>
-
           <div class="price-card price-weekend-bright animate-on-scroll">
             <div class="price-badge-top">🌟 ยอดนิยม</div>
             <div class="price-label">🎉 ศุกร์ – เสาร์</div>
-            <div class="price-main">
-              <span class="price-amount">7,900</span>
-              <span class="price-unit">บาท / คืน</span>
-            </div>
+            <div class="price-main"><span class="price-amount">7,900</span><span class="price-unit">บาท / คืน</span></div>
           </div>
-
           <div class="price-card price-holiday animate-on-scroll">
             <div class="price-label">🏖️ หยุดยาว · นักขัตฤกษ์</div>
-            <div class="price-main">
-              <span class="price-amount">9,900</span>
-              <span class="price-unit">บาท / คืน</span>
-            </div>
+            <div class="price-main"><span class="price-amount">9,900</span><span class="price-unit">บาท / คืน</span></div>
           </div>
-
           <div class="price-card price-special animate-on-scroll">
             <div class="price-badge-top price-badge-special">🎊 Special</div>
             <div class="price-label">🎆 ปีใหม่ · สงกรานต์</div>
-            <div class="price-main">
-              <span class="price-amount">11,900</span>
-              <span class="price-unit">บาท / คืน</span>
-            </div>
+            <div class="price-main"><span class="price-amount">11,900</span><span class="price-unit">บาท / คืน</span></div>
+          </div>
+        </div>
+
+        <!-- CTA ปุ่มเล็ก -->
+        <div class="pc-cta-row animate-on-scroll">
+          <span class="pc-cta-label">ต้องการจองหรือสอบถาม?</span>
+          <div class="pc-cta-btns">
+            <a href="https://line.me/ti/p/penta29" target="_blank" class="btn-pc-line">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.630 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+              LINE จอง
+            </a>
+            <a href="https://www.facebook.com/pappoolvilla/#" target="_blank" class="btn-pc-messenger">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.652V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111S18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.561 6.963z"/></svg>
+              Messenger
+            </a>
+            <a href="tel:0811449594" class="btn-pc-call">📞 081-144-9594</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ขวา: ข้อตกลงในการเข้าพัก เต็มพื้นที่ -->
+      <div class="pc-right-v2">
+        <div class="terms-always animate-on-scroll">
+          <div class="terms-always-header">📋 ข้อตกลงในการเข้าพัก</div>
+
+          <div class="terms-group">
+            <div class="terms-group-title">⏰ Check-in / Check-out</div>
+            <ul class="terms-list">
+              <li>Check-in 14:00–17:00 น. · Check-out ไม่เกิน 12:00 น.</li>
+              <li>เข้าก่อน/ออกหลังเวลา มีค่าใช้จ่าย 500 บาท/ชม.</li>
+              <li>งดเสียงดังนอกบ้านหลัง 22:00 น. (คาราโอเกะใช้ได้ทั้งคืน ปิดประตูกันเสียง)</li>
+              <li>กรุณาล้างอุปกรณ์ครัวและเตาหลังใช้งาน (บริการแม่บ้านล้างให้ 1,000 บาท)</li>
+              <li>วางเงินประกันความเสียหาย 3,000 บาท + บัตรประชาชน วันเช็คอิน (คืนเต็มจำนวนหากไม่มีความเสียหาย)</li>
+              <li>ห้ามมีผู้เข้าพักเกินจำนวนที่ตกลงไว้ หากฝ่าฝืนขอสงวนสิทธิ์ยกเลิกและไม่คืนเงิน</li>
+              <li>หลังโอนเงินจอง สามารถเลื่อนวันเข้าพักได้ภายใน 1 ปี (ไม่สามารถคืนเงินได้)</li>
+              <li>ดูแลทรัพย์สินของท่านเอง ล็อกประตูก่อนออก ทางบ้านพักไม่รับผิดชอบกรณีสูญหาย</li>
+            </ul>
           </div>
 
-        </div>
-
-        <!-- กรอบรวม: CTA + Info + Notice -->
-        <div class="price-bottom-box animate-on-scroll">
-
-          <!-- ต้องการจองหรือสอบถาม -->
-          <div class="price-cta-row">
-            <p class="price-cta-text">ต้องการจองหรือสอบถามเพิ่มเติม?</p>
-            <div class="price-cta-btns">
-              <a href="https://line.me/ti/p/penta29" target="_blank" class="btn-cal-line">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.630 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-                LINE จอง
-              </a>
-              <a href="https://www.facebook.com/pappoolvilla/#" target="_blank" class="btn-cal-messenger">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.652V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111S18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.561 6.963z"/></svg>
-                Messenger
-              </a>
-              <a href="tel:0811449594" class="btn-cal-call">📞 081-144-9594</a>
-            </div>
+          <div class="terms-group">
+            <div class="terms-group-title">🔧 สิ่งอำนวยความสะดวก</div>
+            <ul class="terms-list">
+              <li>มีผ้าขนหนูให้ตามจำนวน · ผู้เข้าพักเตรียมสบู่ ยาสระผม ยาสีฟันเอง</li>
+              <li>มีเตาปิ้งย่างและถังน้ำแข็งให้ (น้ำแข็งและถ่านจำหน่าย ณ จุด Check-in)</li>
+              <li>คาราโอเกะให้บริการฟรี</li>
+              <li>ไม่มีบริการจัดเตรียมอาหาร</li>
+              <li>กรณีเกิดความเสียหายต่อทรัพย์สิน ผู้เข้าพักยินยอมชำระค่าเสียหายตามจริง</li>
+            </ul>
           </div>
 
-          <div class="price-bottom-divider"></div>
-
-          <!-- Info + Notice รวม -->
-          <div class="price-info-notice">
-            <p>⏰ Check-in 14:00 น. · Check-out 12:00 น. · 🐾 นำสัตว์เลี้ยง กรุณาสอบถาม</p>
-            <p>💡 ราคาเช่า<strong>ทั้งหลัง</strong> · มัดจำ 50% ยืนยันการจอง · ส่วนที่เหลือชำระก่อน check-in · <strong>ยกเลิกก่อน 7 วัน</strong> คืนมัดจำ 100%</p>
+          <div class="terms-group">
+            <div class="terms-group-title">🚫 ข้อห้ามและค่าปรับ</div>
+            <ul class="terms-list">
+              <li>ห้ามนำเครื่องเสียงของตัวเองเข้ามา (ใช้เฉพาะที่บ้านพักจัดให้)</li>
+              <li>ห้ามเคลื่อนย้ายเฟอร์นิเจอร์ · ปรับขั้นต่ำ 2,000 บาท</li>
+              <li>ห้ามกระโดดลงสระจากชั้น 2 — อันตรายถึงชีวิต</li>
+              <li>กุญแจสูญหาย ปรับ 400 บาท/ดอก · คีย์การ์ด 400 บาท/ใบ</li>
+              <li>ห้ามนำอาหาร/เครื่องดื่มลงสระ · ปรับ 3,000 บาท</li>
+              <li>ห้ามนำสัตว์เลี้ยงเข้าบ้านพัก · ปรับ 3,000 บาท</li>
+              <li>ห้ามสูบบุหรี่ในบ้าน · ปรับ 2,000 บาท</li>
+              <li>ห้ามนำยาเสพติด/สิ่งผิดกฎหมายเข้าบ้านพัก</li>
+              <li>หากทะเลาะวิวาทหรือมีเรื่องร้องเรียน ต้อง Check-out ทันที</li>
+            </ul>
           </div>
 
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========== เที่ยวรอบบ้าน ========== -->
-  <section id="activities" class="activities-section">
-    <div class="section-header">
-      <div class="section-tag">📍 Around Us</div>
-      <h2 class="section-title">เที่ยวรอบบ้าน</h2>
-      <p class="section-desc">สถานที่น่าเที่ยวใกล้บ้านพัก ชะอำ–เพชรบุรี</p>
-    </div>
-    <div class="activities-grid">
-
-      <div class="act-card" data-src="./img/b01.jpg" data-caption="ล่องแพในน้ำ">
-        <div class="act-img-wrap">
-          <img src="./img/b01.jpg" alt="ล่องแพในน้ำ" loading="lazy" onerror="this.src='./img/b01.JPG';this.onerror=null;" />
-          <div class="act-placeholder"><span>b01.jpg</span></div>
-          <span class="act-tag tag-fun">🎉 สนุก</span>
-          <div class="act-bottom"><p class="act-label">🛶 ล่องแพในน้ำ</p></div>
-        </div>
-      </div>
-
-      <div class="act-card" data-src="./img/b02.jpg" data-caption="น้ำตกในป่า">
-        <div class="act-img-wrap">
-          <img src="./img/b02.jpg" loading="lazy" onerror="this.src='./img/b02.JPG';this.onerror=null;" />
-          <div class="act-placeholder"><span>b02.jpg</span></div>
-          <span class="act-tag tag-adventure">🧗 ผจญภัย</span>
-          <div class="act-bottom"><p class="act-label">💧 น้ำตกในป่า</p></div>
-        </div>
-      </div>
-
-      <div class="act-card" data-src="./img/b03.jpg" data-caption="จุดถ่ายรูปน่ารัก">
-        <div class="act-img-wrap">
-          <img src="./img/b03.jpg" loading="lazy" onerror="this.src='./img/b03.JPG';this.onerror=null;" />
-          <div class="act-placeholder"><span>b03.jpg</span></div>
-          <span class="act-tag tag-photo">📸 ถ่ายรูป</span>
-          <div class="act-bottom"><p class="act-label">🤳 จุดถ่ายรูปน่ารัก</p></div>
-        </div>
-      </div>
-
-      <div class="act-card" data-src="./img/b04.jpg" data-caption="สวนผีเสื้อ">
-        <div class="act-img-wrap">
-          <img src="./img/b04.jpg" loading="lazy" onerror="this.src='./img/b04.JPG';this.onerror=null;" />
-          <div class="act-placeholder"><span>b04.jpg</span></div>
-          <span class="act-tag tag-nature">🌿 ธรรมชาติ</span>
-          <div class="act-bottom"><p class="act-label">🦋 สวนผีเสื้อ</p></div>
-        </div>
-      </div>
-
-      <div class="act-card" data-src="./img/b05.jpg" data-caption="พระอาทิตย์ตกดิน">
-        <div class="act-img-wrap">
-          <img src="./img/b05.jpg" loading="lazy" onerror="this.src='./img/b05.JPG';this.onerror=null;" />
-          <div class="act-placeholder"><span>b05.jpg</span></div>
-          <span class="act-tag tag-sea">🌊 ทะเล</span>
-          <div class="act-bottom"><p class="act-label">🌅 พระอาทิตย์ตกดิน</p></div>
-        </div>
-      </div>
-
-      <div class="act-card" data-src="./img/b06.jpg" data-caption="สวนตาลเพชรบุรี">
-        <div class="act-img-wrap">
-          <img src="./img/b06.jpg" loading="lazy" onerror="this.src='./img/b06.JPG';this.onerror=null;" />
-          <div class="act-placeholder"><span>b06.jpg</span></div>
-          <span class="act-tag tag-local">🌴 ท้องถิ่น</span>
-          <div class="act-bottom"><p class="act-label">🌴 สวนตาลเพชรบุรี</p></div>
-        </div>
-      </div>
-
-      <div class="act-card" data-src="./img/b07.jpg" data-caption="ล่องเรือเที่ยว">
-        <div class="act-img-wrap">
-          <img src="./img/b07.jpg" loading="lazy" onerror="this.src='./img/b07.JPG';this.onerror=null;" />
-          <div class="act-placeholder"><span>b07.jpg</span></div>
-          <span class="act-tag tag-view">🏞️ ชมทิวทัศน์</span>
-          <div class="act-bottom"><p class="act-label">⛵ ล่องเรือเที่ยว</p></div>
-        </div>
-      </div>
-
-      <div class="act-card" data-src="./img/b08.jpg" data-caption="วัดเก่าแก่">
-        <div class="act-img-wrap">
-          <img src="./img/b08.jpg" loading="lazy" onerror="this.src='./img/b08.JPG';this.onerror=null;" />
-          <div class="act-placeholder"><span>b08.jpg</span></div>
-          <span class="act-tag tag-culture">🏛️ วัฒนธรรม</span>
-          <div class="act-bottom"><p class="act-label">🛕 วัดเก่าแก่</p></div>
-        </div>
-      </div>
-
-      <div class="act-card" data-src="./img/b09.jpg" data-caption="ร้านอาหารสุดปัง">
-        <div class="act-img-wrap">
-          <img src="./img/b09.jpg" loading="lazy" onerror="this.src='./img/b09.JPG';this.onerror=null;" />
-          <div class="act-placeholder"><span>b09.jpg</span></div>
-          <span class="act-tag tag-food">🦐 อาหารทะเล</span>
-          <div class="act-bottom"><p class="act-label">🍤 ร้านอาหารสุดปัง!</p></div>
+          <p class="terms-footer">ขอบคุณที่เลือก PAP Pool Villa 🙏 หวังว่าคุณจะได้พักผ่อนที่ดี</p>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ========== GALLERY ========== -->
-  <section id="gallery" class="gallery-section">
-    <div class="section-header">
-      <div class="section-tag">📷 Gallery</div>
-      <h2 class="section-title">แกลเลอรี่</h2>
-      <p class="section-desc">รูปภาพเพิ่มเติมของบ้านพัก · เลื่อนดูได้</p>
-    </div>
-    <div class="hscroll-track" id="galleryTrack">
-      <div class="hscroll-item gallery-item" data-src="./img/02.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>02.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/03.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>03.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/04.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>04.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/05.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>05.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/06.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>06.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/07.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>07.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/08.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>08.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/09.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>09.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/10.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>10.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/11.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>11.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/12.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>12.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/13.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>13.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/14.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>14.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/15.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>15.jpg</span></div>
-      </div>
-      <div class="hscroll-item gallery-item" data-src="./img/16.jpg" data-caption="บ้านพัก PAP Pool Villa">
-        <div class="hscroll-placeholder"><span>16.jpg</span></div>
-      </div>
-    </div>
-    <div class="hscroll-hint">👈 เลื่อนซ้าย-ขวา · กดรูปเพื่อดูเต็มจอ</div>
-  </section>
-
-  <!-- Lightbox -->
-  <div id="lightbox" class="lightbox">
-    <button class="lb-close" id="lbClose">✕</button>
-    <button class="lb-prev" id="lbPrev">❮</button>
-    <button class="lb-next" id="lbNext">❯</button>
-    <div class="lb-img-wrap">
-      <img id="lbImg" src="" alt="" />
-    </div>
-    <div class="lb-caption" id="lbCaption"></div>
-  </div>
-
-
-  <!-- ========== BOOKING (Session 4) ========== -->
+  <!-- ========== BOOKING ========== -->
   <section id="booking" class="booking-section">
     <div class="booking-bg-deco"></div>
 
@@ -759,21 +583,174 @@
           </div>
         </div>
 
-        <!-- ข้อมูลสำคัญ -->
-        <div class="bk-info-card">
-          <h4 class="bk-info-title">📌 ข้อมูลสำคัญ</h4>
-          <ul class="bk-info-list">
-            <li>⏰ Check-in <strong>14:00</strong> · Check-out <strong>12:00</strong></li>
-            <li>💳 มัดจำ <strong>50%</strong> เพื่อยืนยันการจอง</li>
-            <li>🔄 ยกเลิกก่อน 7 วัน คืนมัดจำ <strong>100%</strong></li>
-            <li>🐾 นำสัตว์เลี้ยง กรุณาแจ้งล่วงหน้า</li>
-            <li>🚗 ที่จอดรถ 4 คัน (ฟรี)</li>
-            <li>📶 WiFi ฟรีทั้งหลัง</li>
-          </ul>
-        </div>
+
       </div>
     </div>
   </section>
+
+
+  <!-- ========== เที่ยวรอบบ้าน ========== -->
+  <section id="activities" class="activities-section">
+    <div class="section-header">
+      <div class="section-tag">📍 Around Us</div>
+      <h2 class="section-title">เที่ยวรอบบ้าน</h2>
+      <p class="section-desc">สถานที่น่าเที่ยวใกล้บ้านพัก ชะอำ–เพชรบุรี</p>
+    </div>
+    <div class="activities-grid">
+
+      <div class="act-card" data-src="./img/b01.jpg" data-caption="ล่องแพในน้ำ">
+        <div class="act-img-wrap">
+          <img src="./img/b01.jpg" alt="ล่องแพในน้ำ" loading="lazy" onerror="this.src='./img/b01.JPG';this.onerror=null;" />
+          <div class="act-placeholder"><span>b01.jpg</span></div>
+          <span class="act-tag tag-fun">🎉 สนุก</span>
+          <div class="act-bottom"><p class="act-label">🛶 ล่องแพในน้ำ</p></div>
+        </div>
+      </div>
+
+      <div class="act-card" data-src="./img/b02.jpg" data-caption="น้ำตกในป่า">
+        <div class="act-img-wrap">
+          <img src="./img/b02.jpg" loading="lazy" onerror="this.src='./img/b02.JPG';this.onerror=null;" />
+          <div class="act-placeholder"><span>b02.jpg</span></div>
+          <span class="act-tag tag-adventure">🧗 ผจญภัย</span>
+          <div class="act-bottom"><p class="act-label">💧 น้ำตกในป่า</p></div>
+        </div>
+      </div>
+
+      <div class="act-card" data-src="./img/b03.jpg" data-caption="จุดถ่ายรูปน่ารัก">
+        <div class="act-img-wrap">
+          <img src="./img/b03.jpg" loading="lazy" onerror="this.src='./img/b03.JPG';this.onerror=null;" />
+          <div class="act-placeholder"><span>b03.jpg</span></div>
+          <span class="act-tag tag-photo">📸 ถ่ายรูป</span>
+          <div class="act-bottom"><p class="act-label">🤳 จุดถ่ายรูปน่ารัก</p></div>
+        </div>
+      </div>
+
+      <div class="act-card" data-src="./img/b04.jpg" data-caption="สวนผีเสื้อ">
+        <div class="act-img-wrap">
+          <img src="./img/b04.jpg" loading="lazy" onerror="this.src='./img/b04.JPG';this.onerror=null;" />
+          <div class="act-placeholder"><span>b04.jpg</span></div>
+          <span class="act-tag tag-nature">🌿 ธรรมชาติ</span>
+          <div class="act-bottom"><p class="act-label">🦋 สวนผีเสื้อ</p></div>
+        </div>
+      </div>
+
+      <div class="act-card" data-src="./img/b05.jpg" data-caption="พระอาทิตย์ตกดิน">
+        <div class="act-img-wrap">
+          <img src="./img/b05.jpg" loading="lazy" onerror="this.src='./img/b05.JPG';this.onerror=null;" />
+          <div class="act-placeholder"><span>b05.jpg</span></div>
+          <span class="act-tag tag-sea">🌊 ทะเล</span>
+          <div class="act-bottom"><p class="act-label">🌅 พระอาทิตย์ตกดิน</p></div>
+        </div>
+      </div>
+
+      <div class="act-card" data-src="./img/b06.jpg" data-caption="สวนตาลเพชรบุรี">
+        <div class="act-img-wrap">
+          <img src="./img/b06.jpg" loading="lazy" onerror="this.src='./img/b06.JPG';this.onerror=null;" />
+          <div class="act-placeholder"><span>b06.jpg</span></div>
+          <span class="act-tag tag-local">🌴 ท้องถิ่น</span>
+          <div class="act-bottom"><p class="act-label">🌴 สวนตาลเพชรบุรี</p></div>
+        </div>
+      </div>
+
+      <div class="act-card" data-src="./img/b07.jpg" data-caption="ล่องเรือเที่ยว">
+        <div class="act-img-wrap">
+          <img src="./img/b07.jpg" loading="lazy" onerror="this.src='./img/b07.JPG';this.onerror=null;" />
+          <div class="act-placeholder"><span>b07.jpg</span></div>
+          <span class="act-tag tag-view">🏞️ ชมทิวทัศน์</span>
+          <div class="act-bottom"><p class="act-label">⛵ ล่องเรือเที่ยว</p></div>
+        </div>
+      </div>
+
+      <div class="act-card" data-src="./img/b08.jpg" data-caption="วัดเก่าแก่">
+        <div class="act-img-wrap">
+          <img src="./img/b08.jpg" loading="lazy" onerror="this.src='./img/b08.JPG';this.onerror=null;" />
+          <div class="act-placeholder"><span>b08.jpg</span></div>
+          <span class="act-tag tag-culture">🏛️ วัฒนธรรม</span>
+          <div class="act-bottom"><p class="act-label">🛕 วัดเก่าแก่</p></div>
+        </div>
+      </div>
+
+      <div class="act-card" data-src="./img/b09.jpg" data-caption="ร้านอาหารสุดปัง">
+        <div class="act-img-wrap">
+          <img src="./img/b09.jpg" loading="lazy" onerror="this.src='./img/b09.JPG';this.onerror=null;" />
+          <div class="act-placeholder"><span>b09.jpg</span></div>
+          <span class="act-tag tag-food">🦐 อาหารทะเล</span>
+          <div class="act-bottom"><p class="act-label">🍤 ร้านอาหารสุดปัง!</p></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== GALLERY ========== -->
+  <section id="gallery" class="gallery-section">
+    <div class="section-header">
+      <div class="section-tag">📷 Gallery</div>
+      <h2 class="section-title">แกลเลอรี่</h2>
+      <p class="section-desc">รูปภาพเพิ่มเติมของบ้านพัก · เลื่อนดูได้</p>
+    </div>
+    <div class="hscroll-track" id="galleryTrack">
+      <div class="hscroll-item gallery-item" data-src="./img/02.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>02.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/03.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>03.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/04.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>04.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/05.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>05.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/06.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>06.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/07.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>07.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/08.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>08.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/09.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>09.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/10.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>10.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/11.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>11.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/12.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>12.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/13.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>13.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/14.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>14.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/15.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>15.jpg</span></div>
+      </div>
+      <div class="hscroll-item gallery-item" data-src="./img/16.jpg" data-caption="บ้านพัก PAP Pool Villa">
+        <div class="hscroll-placeholder"><span>16.jpg</span></div>
+      </div>
+    </div>
+    <div class="hscroll-hint">👈 เลื่อนซ้าย-ขวา · กดรูปเพื่อดูเต็มจอ</div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <button class="lb-close" id="lbClose">✕</button>
+    <button class="lb-prev" id="lbPrev">❮</button>
+    <button class="lb-next" id="lbNext">❯</button>
+    <div class="lb-img-wrap">
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <div class="lb-caption" id="lbCaption"></div>
+  </div>
+
+
 
   <!-- ========== CONTACT (Session 5) ========== -->
   <section id="contact" class="contact-section">
@@ -964,8 +941,10 @@
           <li>⏰ Check-in <strong>14:00 น.</strong></li>
           <li>⏰ Check-out <strong>12:00 น.</strong></li>
           <li>💳 มัดจำ <strong>50%</strong> ยืนยันจอง</li>
-          <li>🔄 ยกเลิกก่อน 7 วัน คืนมัดจำ 100%</li>
-          <li>🐾 นำสัตว์เลี้ยงได้ (แจ้งล่วงหน้า)</li>
+          <li>🔄 ยกเลิกก่อน <strong>14 วัน</strong> คืนมัดจำ 100%</li>
+          <li>🔄 ยกเลิกก่อน <strong>7 วัน</strong> หักค่าธรรมเนียม 1,000 บาท</li>
+          <li>🚫 ช่วงเทศกาล ไม่สามารถคืนเงินได้</li>
+          <li>🐾 กรณีนำสัตว์เลี้ยงเข้าพัก กรุณาแจ้งก่อนและติดต่อสอบถาม</li>
           <li>🚗 ที่จอดรถ 4 คัน · WiFi ฟรี</li>
         </ul>
       </div>

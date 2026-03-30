@@ -1,3 +1,20 @@
+
+/* ============================================================
+   TERMS ACCORDION
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', function () {
+  const toggle = document.getElementById('termsToggle');
+  const body   = document.getElementById('termsBody');
+  const arrow  = document.getElementById('termsArrow');
+  if (!toggle) return;
+
+  toggle.addEventListener('click', function () {
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  });
+});
+
 /* ============================================================
    MESSENGER CONFIG — เปลี่ยน URL ตรงนี้จุดเดียว
    ใส่ชื่อ Facebook Page เช่น "PapPoolVilla" หรือ URL เต็ม
@@ -215,11 +232,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (parts.length !== 3) continue;
 
       let y, m, d;
-      if (parseInt(parts[0], 10) > 31) {
+      if (sep === '/') {
+        // Google Sheet แปลงเป็น MM/DD/YYYY อัตโนมัติ
+        m = parseInt(parts[0], 10);
+        d = parseInt(parts[1], 10);
+        y = parseInt(parts[2], 10);
+      } else if (parseInt(parts[0], 10) > 31) {
+        // YYYY-MM-DD
         y = parseInt(parts[0], 10);
         m = parseInt(parts[1], 10);
         d = parseInt(parts[2], 10);
       } else {
+        // DD-MM-YYYY
         d = parseInt(parts[0], 10);
         m = parseInt(parts[1], 10);
         y = parseInt(parts[2], 10);
@@ -251,8 +275,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (parts.length !== 3) continue;
       let y, m, d;
       if (sep === '/') {
-        // DD/MM/YYYY เสมอ (ไทยใช้แบบนี้)
-        d = parseInt(parts[0], 10); m = parseInt(parts[1], 10); y = parseInt(parts[2], 10);
+        // Google Sheet แปลงเป็น MM/DD/YYYY อัตโนมัติ
+        m = parseInt(parts[0], 10); d = parseInt(parts[1], 10); y = parseInt(parts[2], 10);
       } else if (parseInt(parts[0], 10) > 31) {
         // YYYY-MM-DD
         y = parseInt(parts[0], 10); m = parseInt(parts[1], 10); d = parseInt(parts[2], 10);
@@ -684,15 +708,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const nights = Math.round((end - start) / 86400000);
     if (nights <= 0) return null;
 
+    const prices = { weekday: 5900, weekend: 7900, holiday: 9900, special: 11900 };
     let total = 0;
-    const prices = { weekday: 5900, weekend: 7900 };
+    let pricePerNight = 0; // ราคาคืนสุดท้าย (ใช้แสดง)
     const cur = new Date(start);
     for (let i = 0; i < nights; i++) {
-      const day = cur.getDay(); // 0=Sun,5=Fri,6=Sat
-      total += (day === 5 || day === 6) ? prices.weekend : prices.weekday;
+      const day = cur.getDay();
+      const yy  = cur.getFullYear();
+      const mm  = cur.getMonth() + 1;
+      const dd  = cur.getDate();
+      const isoKey = `${yy}-${String(mm).padStart(2,'0')}-${String(dd).padStart(2,'0')}`;
+      // ตรวจ special/holiday จาก Sheet
+      let p = (day === 5 || day === 6) ? prices.weekend : prices.weekday;
+      if (typeof SPECIAL_DATES !== 'undefined' && SPECIAL_DATES.has(isoKey)) p = prices.special;
+      else if (typeof PUBLIC_HOLIDAYS !== 'undefined' && PUBLIC_HOLIDAYS.has(isoKey)) p = prices.holiday;
+      pricePerNight = p;
+      total += p;
       cur.setDate(cur.getDate() + 1);
     }
-    return { nights, total };
+    return { nights, total, pricePerNight };
   }
 
   function updateSummary() {
@@ -729,26 +763,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const purpose = $('bkPurpose')?.value         || '';
     const note    = $('bkNote')?.value.trim()     || '';
 
-    const addons = [...document.querySelectorAll('input[name="addon"]:checked')]
-                    .map(el => el.value);
-
     const est = (ci && co) ? estimatePrice(ci, co) : null;
+    const deposit = est ? Math.ceil(est.total * 0.5 / 100) * 100 : null;
 
-    let msg = `🏊 สอบถาม/จอง PAP Pool Villa ชะอำ\n`;
+    let msg = `🏊 PAP Pool Villa Cha-am\n`;
     msg += `━━━━━━━━━━━━━━━━━\n`;
-    msg += `👤 ชื่อ: ${name}\n`;
-    msg += `📞 เบอร์: ${phone}\n`;
+    msg += `Booking name: คุณ ${name}\n`;
+    msg += `เบอร์โทร: ${phone}\n`;
     msg += `━━━━━━━━━━━━━━━━━\n`;
     msg += `📅 Check-in:  ${thaiDate(ci)}\n`;
     msg += `📅 Check-out: ${thaiDate(co)}\n`;
-    if (est && est.nights > 0) msg += `🌙 จำนวนคืน: ${est.nights} คืน\n`;
+    if (est && est.nights > 0) {
+      msg += `🌙 จำนวน: ${est.nights} คืน\n`;
+    }
     msg += `━━━━━━━━━━━━━━━━━\n`;
     msg += `👥 ผู้เข้าพัก: ${guests} ท่าน\n`;
     if (purpose) msg += `🎉 จุดประสงค์: ${purpose}\n`;
-    if (addons.length > 0) msg += `🌟 บริการเสริม: ${addons.join(', ')}\n`;
+    if (est && est.nights > 0) {
+      msg += `\n💰 ราคา: ฿${est.pricePerNight.toLocaleString()} × ${est.nights} คืน\n`;
+      msg += `💵 ยอดรวมทั้งสิ้น = ฿${est.total.toLocaleString()} บาท\n`;
+      msg += `━━━━━━━━━━━━━━━━━\n`;
+      msg += `💳 กรุณาโอนมัดจำ 50%\n`;
+      msg += `   = ฿${deposit.toLocaleString()} บาท\n`;
+      msg += `   ธนาคาร TTB สาขาโลตัส นวนคร\n`;
+      msg += `   ออมทรัพย์ เลขที่บัญชี 129-2-28007-8\n`;
+      msg += `   ชื่อบัญชี: น.ส.เพ็ญศิริ ฉันทวิเศษกุล\n`;
+      msg += `━━━━━━━━━━━━━━━━━\n`;
+    }
     if (note) msg += `📝 หมายเหตุ: ${note}\n`;
     msg += `━━━━━━━━━━━━━━━━━\n`;
-    msg += `✨ ส่งจากเว็บไซต์ PapPoolVilla.com`;
+    msg += `📋 นโยบายการยกเลิก\n`;
+    msg += `   · ยกเลิกก่อน 14 วัน → คืนมัดจำ 100%\n`;
+    msg += `   · ยกเลิกก่อน 7 วัน → หักค่าธรรมเนียม 1,000 บาท\n`;
+    msg += `   · ช่วงเทศกาล → ไม่สามารถคืนเงินได้\n`;
+    msg += `   · หลังโอนเงินจอง สามารถเลื่อนวันเข้าพักได้ภายใน 1 ปี\n`;
+
+    msg += `✨ PAP Pool Villa · ชะอำ เพชรบุรี`;
 
     return msg;
   }
