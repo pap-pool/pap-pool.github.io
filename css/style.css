@@ -3441,16 +3441,16 @@ ul { list-style: none; }
 
 /* --- Submit note row — แยกใต้แต่ละปุ่ม --- */
 .form-submit-note-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  display: flex;
+  justify-content: center;
   width: 100%;
-  margin-top: -40px;
+  margin-top: -36px;
 }
 
 .form-submit-note-row .form-submit-note {
   text-align: center;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
+  color: var(--text-light);
 }
 
 /* ============================================================

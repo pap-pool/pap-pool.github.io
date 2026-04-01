@@ -244,13 +244,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const p1 = parseInt(parts[1], 10);
         const p2 = parseInt(parts[2], 10);
         if (p2 > 31) {
-          // parts[2] คือปี → MM/DD/YYYY หรือ DD/MM/YYYY
+          // parts[2] คือปี → DD/MM/YYYY หรือ MM/DD/YYYY
           if (p0 > 12) {
-            // DD/MM/YYYY (วันมากกว่า 12 แน่นอน)
+            // DD/MM/YYYY แน่นอน
             d = p0; m = p1; y = p2;
-          } else {
-            // default = MM/DD/YYYY (Google Sheets US locale)
+          } else if (p1 > 12) {
+            // MM/DD/YYYY แน่นอน
             m = p0; d = p1; y = p2;
+          } else {
+            // ไม่แน่ใจ → DD/MM/YYYY (Thai default)
+            d = p0; m = p1; y = p2;
           }
         } else {
           // YYYY/MM/DD
@@ -299,11 +302,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const p1 = parseInt(parts[1], 10);
         const p2 = parseInt(parts[2], 10);
         if (p2 > 31) {
-          // MM/DD/YYYY หรือ DD/MM/YYYY
+          // DD/MM/YYYY หรือ MM/DD/YYYY
           if (p0 > 12) {
-            d = p0; m = p1; y = p2;
+            d = p0; m = p1; y = p2; // DD/MM/YYYY แน่นอน
+          } else if (p1 > 12) {
+            m = p0; d = p1; y = p2; // MM/DD/YYYY แน่นอน
           } else {
-            m = p0; d = p1; y = p2; // MM/DD/YYYY default
+            d = p0; m = p1; y = p2; // DD/MM/YYYY default (Thai)
           }
         } else {
           y = p0; m = p1; d = p2; // YYYY/MM/DD
