@@ -207,12 +207,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       renderCalendar();
+      renderHolidayList();
       setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
 
     } catch (err) {
       console.warn('PAP Calendar: โหลดข้อมูลไม่ได้ —', err);
       dateStatusMap = new Map();
       renderCalendar();
+      renderHolidayList();
       setStatus('error', '⚠️ โหลดข้อมูลวันว่างไม่ได้ · กรุณาติดต่อสอบถามโดยตรง');
     }
   }
@@ -501,6 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewMonth < 0) { viewMonth = 11; viewYear--; }
     selectedCell = null;
     renderCalendar();
+    renderHolidayList();
     setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
   });
 
@@ -509,6 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewMonth > 11) { viewMonth = 0; viewYear++; }
     selectedCell = null;
     renderCalendar();
+    renderHolidayList();
     setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
   });
 
