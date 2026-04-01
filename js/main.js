@@ -444,10 +444,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const holidays = [];
 
     for (let d = 1; d <= daysInMonth; d++) {
-      const status = getSheetStatus(viewYear, viewMonth, d);
-      const note   = getSheetNote(viewYear, viewMonth, d);
-      if ((status === 'holiday' || status === 'special') && note) {
-        holidays.push({ d, status, note });
+      const isoKey = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      // เช็ควันหยุดจาก PUBLIC_HOLIDAYS และ SPECIAL_DATES โดยตรง (ไม่ขึ้นกับ booked status)
+      let holidayNote = '';
+      let holidayType = '';
+      if (SPECIAL_DATES.has(isoKey)) {
+        holidayType = 'special';
+        // หา note จาก dateStatusMap
+        const entry = dateStatusMap.get(`${viewYear}-${viewMonth+1}-${d}`);
+        holidayNote = (entry && (entry.status === 'special' || entry.status === 'holiday')) ? entry.note : '';
+      } else if (PUBLIC_HOLIDAYS.has(isoKey)) {
+        holidayType = 'holiday';
+        const entry = dateStatusMap.get(`${viewYear}-${viewMonth+1}-${d}`);
+        holidayNote = (entry && entry.status === 'holiday') ? entry.note : '';
+      }
+      if (holidayType && holidayNote) {
+        holidays.push({ d, status: holidayType, note: holidayNote });
       }
     }
 

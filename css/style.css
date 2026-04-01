@@ -1827,11 +1827,11 @@ ul { list-style: none; }
 .cal-day.cal-weekend { /* ศ.ส. ปกติ */ }
 
 .cal-day.cal-selected {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  background: linear-gradient(135deg, #06c755, #04a844);
   color: white;
   font-weight: 700;
   border-color: transparent;
-  box-shadow: 0 4px 14px rgba(0,180,216,0.35);
+  box-shadow: 0 4px 14px rgba(6,199,85,0.40);
   transform: scale(1.1);
 }
 
