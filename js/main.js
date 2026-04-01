@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* วันหยุดจาก Sheet 2 — โหลดอัตโนมัติ ไม่ต้อง hardcode */
   const PUBLIC_HOLIDAYS = new Set();
   const SPECIAL_DATES   = new Set();
+  const HOLIDAY_NOTES   = new Map(); /* isoKey → note (แยกจาก booking status) */
 
   const THAI_MONTHS = [
     'มกราคม','กุมภาพันธ์','มีนาคม','เมษายน',
@@ -329,9 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(`📌 parsed: y=${y} m=${m} d=${d} type=${type} note=${note2} mapKey=${mapKey}`);
       if (type === 'holiday') {
         PUBLIC_HOLIDAYS.add(isoKey);
+        HOLIDAY_NOTES.set(isoKey, note2);
         if (!dateStatusMap.has(mapKey)) dateStatusMap.set(mapKey, { status: 'holiday', note: note2 });
       } else if (type === 'special') {
         SPECIAL_DATES.add(isoKey);
+        HOLIDAY_NOTES.set(isoKey, note2);
         if (!dateStatusMap.has(mapKey)) dateStatusMap.set(mapKey, { status: 'special', note: note2 });
       }
     }
@@ -445,21 +448,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (let d = 1; d <= daysInMonth; d++) {
       const isoKey = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      // เช็ควันหยุดจาก PUBLIC_HOLIDAYS และ SPECIAL_DATES โดยตรง (ไม่ขึ้นกับ booked status)
-      let holidayNote = '';
       let holidayType = '';
-      if (SPECIAL_DATES.has(isoKey)) {
-        holidayType = 'special';
-        // หา note จาก dateStatusMap
-        const entry = dateStatusMap.get(`${viewYear}-${viewMonth+1}-${d}`);
-        holidayNote = (entry && (entry.status === 'special' || entry.status === 'holiday')) ? entry.note : '';
-      } else if (PUBLIC_HOLIDAYS.has(isoKey)) {
-        holidayType = 'holiday';
-        const entry = dateStatusMap.get(`${viewYear}-${viewMonth+1}-${d}`);
-        holidayNote = (entry && entry.status === 'holiday') ? entry.note : '';
-      }
-      if (holidayType && holidayNote) {
-        holidays.push({ d, status: holidayType, note: holidayNote });
+      if (SPECIAL_DATES.has(isoKey)) holidayType = 'special';
+      else if (PUBLIC_HOLIDAYS.has(isoKey)) holidayType = 'holiday';
+
+      if (holidayType) {
+        const note = HOLIDAY_NOTES.get(isoKey) || '';
+        if (note) holidays.push({ d, status: holidayType, note });
       }
     }
 
