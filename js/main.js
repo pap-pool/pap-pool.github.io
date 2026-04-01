@@ -188,7 +188,12 @@ document.addEventListener('DOMContentLoaded', () => {
       /* Sheet 1 — booked / hold */
       if (resBookings.ok) {
         const csv = await resBookings.text();
+        console.log('✅ Sheet 1 fetched, length =', csv.length);
+        console.log('📄 Sheet 1 raw (first 300):', csv.substring(0, 300));
         dateStatusMap = parseCSV(csv);
+        console.log('✅ Sheet 1 parsed, entries =', dateStatusMap.size);
+      } else {
+        console.error('❌ Sheet 1 fetch failed:', resBookings.status);
       }
 
       /* Sheet 2 — holiday / special → เติม Sets + merge เข้า dateStatusMap */
@@ -264,6 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isNaN(y) || isNaN(m) || isNaN(d)) continue;
 
       const note = (cols[1] || '').trim().replace(/"/g, '');
+      console.log('```CSV:``` raw='+rawDate+' → y='+y+' m='+m+' d='+d+' key='+y+'-'+m+'-'+d);
       map.set(`${y}-${m}-${d}`, { status, note });
     }
     return map;
