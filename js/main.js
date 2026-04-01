@@ -233,29 +233,28 @@ document.addEventListener('DOMContentLoaded', () => {
       const validStatuses = ['booked', 'hold', 'holiday', 'special'];
       if (!validStatuses.includes(status)) continue;
 
-      /* รองรับหลาย format: YYYY-MM-DD, DD/MM/YYYY, DD-MM-YYYY */
+      /* รองรับหลาย format: YYYY-MM-DD, DD/MM/YYYY, MM/DD/YYYY */
       const sep   = rawDate.includes('/') ? '/' : '-';
       const parts = rawDate.split(sep);
       if (parts.length !== 3) continue;
 
       let y, m, d;
       if (sep === '/') {
-        // รองรับทั้ง DD/MM/YYYY (Thai) และ MM/DD/YYYY (US Google Sheets)
-        // ถ้า parts[0] > 12 แสดงว่าเป็น DD/MM/YYYY แน่นอน
-        // ถ้า parts[1] > 12 แสดงว่าเป็น MM/DD/YYYY แน่นอน
-        // ถ้าไม่แน่ใจ ให้ถือว่าเป็น DD/MM/YYYY (Thai format)
         const p0 = parseInt(parts[0], 10);
         const p1 = parseInt(parts[1], 10);
         const p2 = parseInt(parts[2], 10);
-        if (p0 > 12) {
-          // DD/MM/YYYY
-          d = p0; m = p1; y = p2;
-        } else if (p1 > 12) {
-          // MM/DD/YYYY
-          m = p0; d = p1; y = p2;
+        if (p2 > 31) {
+          // parts[2] คือปี → MM/DD/YYYY หรือ DD/MM/YYYY
+          if (p0 > 12) {
+            // DD/MM/YYYY (วันมากกว่า 12 แน่นอน)
+            d = p0; m = p1; y = p2;
+          } else {
+            // default = MM/DD/YYYY (Google Sheets US locale)
+            m = p0; d = p1; y = p2;
+          }
         } else {
-          // ไม่แน่ใจ — ใช้ DD/MM/YYYY (Thai default)
-          d = p0; m = p1; y = p2;
+          // YYYY/MM/DD
+          y = p0; m = p1; d = p2;
         }
       } else if (parseInt(parts[0], 10) > 31) {
         // YYYY-MM-DD
@@ -296,16 +295,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (parts.length !== 3) continue;
       let y, m, d;
       if (sep === '/') {
-        // รองรับทั้ง DD/MM/YYYY (Thai) และ MM/DD/YYYY (US Google Sheets)
         const p0 = parseInt(parts[0], 10);
         const p1 = parseInt(parts[1], 10);
         const p2 = parseInt(parts[2], 10);
-        if (p0 > 12) {
-          d = p0; m = p1; y = p2;
-        } else if (p1 > 12) {
-          m = p0; d = p1; y = p2;
+        if (p2 > 31) {
+          // MM/DD/YYYY หรือ DD/MM/YYYY
+          if (p0 > 12) {
+            d = p0; m = p1; y = p2;
+          } else {
+            m = p0; d = p1; y = p2; // MM/DD/YYYY default
+          }
         } else {
-          d = p0; m = p1; y = p2;
+          y = p0; m = p1; d = p2; // YYYY/MM/DD
         }
       } else if (parseInt(parts[0], 10) > 31) {
         // YYYY-MM-DD
