@@ -202,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       renderCalendar();
-      renderHolidayList();
       setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
 
     } catch (err) {
@@ -234,10 +233,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let y, m, d;
       if (sep === '/') {
-        // Google Sheet แปลงเป็น MM/DD/YYYY อัตโนมัติ
-        m = parseInt(parts[0], 10);
-        d = parseInt(parts[1], 10);
-        y = parseInt(parts[2], 10);
+        // รองรับทั้ง DD/MM/YYYY (Thai) และ MM/DD/YYYY (US Google Sheets)
+        // ถ้า parts[0] > 12 แสดงว่าเป็น DD/MM/YYYY แน่นอน
+        // ถ้า parts[1] > 12 แสดงว่าเป็น MM/DD/YYYY แน่นอน
+        // ถ้าไม่แน่ใจ ให้ถือว่าเป็น DD/MM/YYYY (Thai format)
+        const p0 = parseInt(parts[0], 10);
+        const p1 = parseInt(parts[1], 10);
+        const p2 = parseInt(parts[2], 10);
+        if (p0 > 12) {
+          // DD/MM/YYYY
+          d = p0; m = p1; y = p2;
+        } else if (p1 > 12) {
+          // MM/DD/YYYY
+          m = p0; d = p1; y = p2;
+        } else {
+          // ไม่แน่ใจ — ใช้ DD/MM/YYYY (Thai default)
+          d = p0; m = p1; y = p2;
+        }
       } else if (parseInt(parts[0], 10) > 31) {
         // YYYY-MM-DD
         y = parseInt(parts[0], 10);
@@ -276,8 +288,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (parts.length !== 3) continue;
       let y, m, d;
       if (sep === '/') {
-        // Google Sheet แปลงเป็น MM/DD/YYYY อัตโนมัติ
-        m = parseInt(parts[0], 10); d = parseInt(parts[1], 10); y = parseInt(parts[2], 10);
+        // รองรับทั้ง DD/MM/YYYY (Thai) และ MM/DD/YYYY (US Google Sheets)
+        const p0 = parseInt(parts[0], 10);
+        const p1 = parseInt(parts[1], 10);
+        const p2 = parseInt(parts[2], 10);
+        if (p0 > 12) {
+          d = p0; m = p1; y = p2;
+        } else if (p1 > 12) {
+          m = p0; d = p1; y = p2;
+        } else {
+          d = p0; m = p1; y = p2;
+        }
       } else if (parseInt(parts[0], 10) > 31) {
         // YYYY-MM-DD
         y = parseInt(parts[0], 10); m = parseInt(parts[1], 10); d = parseInt(parts[2], 10);
@@ -474,7 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewMonth < 0) { viewMonth = 11; viewYear--; }
     selectedCell = null;
     renderCalendar();
-    renderHolidayList();
     setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
   });
 
@@ -483,7 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewMonth > 11) { viewMonth = 0; viewYear++; }
     selectedCell = null;
     renderCalendar();
-    renderHolidayList();
     setStatus('', '✨ เลือกวันที่ต้องการ เพื่อดูราคาและสอบถามการจอง');
   });
 
@@ -869,7 +888,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toast = $('bkCopyToast');
     if (!toast) return;
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 4500);
+    setTimeout(() => toast.classList.remove('show'), 7000);
   }
 
   /* ---- Submit → LINE ---- */
