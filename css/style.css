@@ -1827,11 +1827,11 @@ ul { list-style: none; }
 .cal-day.cal-weekend { /* ศ.ส. ปกติ */ }
 
 .cal-day.cal-selected {
-  background: linear-gradient(135deg, #06c755, #04a844);
+  background: linear-gradient(135deg, #4ade80, #22c55e);
   color: white;
   font-weight: 700;
   border-color: transparent;
-  box-shadow: 0 4px 14px rgba(6,199,85,0.40);
+  box-shadow: 0 4px 14px rgba(74,222,128,0.40);
   transform: scale(1.1);
 }
 
@@ -3491,7 +3491,7 @@ ul { list-style: none; }
   display: grid;
   grid-template-columns: 1fr 1.2fr 1fr;
   gap: 32px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .contact-reviews-col { min-width: 0; }
@@ -3501,6 +3501,10 @@ ul { list-style: none; }
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.contact-info-col .contact-card-social {
+  flex: 1;
 }
 
 .contact-card {
@@ -3630,6 +3634,8 @@ ul { list-style: none; }
 .contact-card-social {
   background: linear-gradient(135deg, var(--dark2), var(--dark)) !important;
   border-color: rgba(255,255,255,0.1) !important;
+  height: 100%;
+  box-sizing: border-box;
 }
 .contact-card-social .contact-card-icon { filter: brightness(2); }
 .contact-title-light {
