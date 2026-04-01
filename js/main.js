@@ -410,18 +410,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (isPast(viewYear, viewMonth, d)) {
         cell.classList.add('cal-past');
-      } else if (isToday(viewYear, viewMonth, d)) {
-        cell.classList.add('cal-today');
       } else {
         const sheetStatus = getSheetStatus(viewYear, viewMonth, d);
         if (sheetStatus === 'booked') {
           cell.classList.add('cal-booked');
+          if (isToday(viewYear, viewMonth, d)) cell.classList.add('cal-today-booked');
         } else if (sheetStatus === 'hold') {
           cell.classList.add('cal-hold');
         } else if (sheetStatus === 'special') {
           cell.classList.add('cal-special');
         } else if (sheetStatus === 'holiday') {
           cell.classList.add('cal-holiday-sheet');
+        } else if (isToday(viewYear, viewMonth, d)) {
+          cell.classList.add('cal-today');
         } else if (isWeekend(viewYear, viewMonth, d)) {
           cell.classList.add('cal-weekend');
         }

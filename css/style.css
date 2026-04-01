@@ -1806,6 +1806,12 @@ ul { list-style: none; }
   box-shadow: 0 4px 12px rgba(0,180,216,0.4);
 }
 
+/* วันนี้ที่ถูกจองแล้ว — แสดงสีจอง + ขอบฟ้าบอกว่าวันนี้ */
+.cal-day.cal-today-booked {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
 .cal-day.cal-booked {
   background: #fff0ee;
   color: #e74c3c;
