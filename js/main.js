@@ -905,8 +905,11 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---- Submit → LINE ---- */
   function submitViaLine() {
     const msg = buildMessage();
-    const url = `https://line.me/ti/p/penta29?text=${encodeURIComponent(msg)}`;
-    window.open(url, '_blank');
+    const lineUrl = 'https://line.me/ti/p/@alo2064u';
+    copyToClipboard(msg).then(() => {
+      showCopyToast();
+      setTimeout(() => window.open(lineUrl, '_blank'), 800);
+    });
   }
 
   /* ---- Submit → Messenger (copy + open) ---- */
