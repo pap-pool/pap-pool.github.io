@@ -919,10 +919,21 @@ document.addEventListener('DOMContentLoaded', () => {
   function submitViaLine() {
     const msg = buildMessage();
     const lineUrl = 'https://line.me/ti/p/@alo2064u';
-    copyToClipboard(msg).then(() => {
-      showCopyToast();
-      setTimeout(() => window.open(lineUrl, '_blank'), 800);
-    });
+
+    // copy ก่อน (sync fallback) แล้วเปิด LINE ทันที
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(msg).catch(() => {});
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = msg;
+      ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      try { document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+    }
+    showCopyToast();
+    window.open(lineUrl, '_blank');
   }
 
   /* ---- Submit → Messenger (copy + open) ---- */
@@ -930,13 +941,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const msg = buildMessage();
     const messengerUrl = (window.MESSENGER_URL && !window.MESSENGER_URL.includes('YOUR_PAGE_NAME'))
       ? window.MESSENGER_URL
-      : 'https://www.messenger.com';
+      : 'https://m.me/pappoolvilla';
 
-    copyToClipboard(msg).then(() => {
-      showCopyToast();
-      // Short delay so user sees toast before tab switches
-      setTimeout(() => window.open(messengerUrl, '_blank'), 800);
-    });
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(msg).catch(() => {});
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = msg;
+      ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      try { document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+    }
+    showCopyToast();
+    window.open(messengerUrl, '_blank');
   }
 
   /* ---- Init form submit ---- */
