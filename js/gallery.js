@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           addRoomDots(track);
           enableDragScroll(track);
+          bindRoomLightbox(track);
         }
       }, 1500);
     });
@@ -95,6 +96,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const index = Math.round(track.scrollLeft / track.offsetWidth);
       dotsWrap.querySelectorAll('.room-dot').forEach((d, i) => {
         d.classList.toggle('active', i === index);
+      });
+    });
+  }
+
+  function bindRoomLightbox(track) {
+    const imgs = track.querySelectorAll('img');
+    imgs.forEach((img, i) => {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', () => {
+        // สร้าง items array จาก img elements ในห้องนี้
+        const items = [...imgs].map(im => ({
+          dataset: { src: im.dataset.src || im.src, caption: im.dataset.caption || im.alt }
+        }));
+        openLightbox(items, i);
       });
     });
   }
