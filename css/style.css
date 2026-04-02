@@ -4567,7 +4567,30 @@ ul { list-style: none; }
 }
 @media (max-width: 560px) {
   .pc-left-v2 .pricing-grid-4 { grid-template-columns: 1fr 1fr !important; }
-  .pc-cta-row { flex-direction: column; align-items: flex-start; }
+  .pc-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 14px 16px;
+  }
+  .pc-cta-label {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+  }
+  .pc-cta-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+  .btn-pc-line, .btn-pc-messenger, .btn-pc-call {
+    justify-content: center;
+    padding: 9px 6px;
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
 }
 
 /* ฟอร์มจอง — ปุ่มส่ง + note อยู่กึ่งกลาง บรรทัดเดียว */
