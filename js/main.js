@@ -938,17 +938,30 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // ผูกปุ่ม Desktop (clone เพื่อล้าง listener เก่า)
-    ['btnOpenLine', 'btnOpenMessenger'].forEach(id => {
-      const old = document.getElementById(id);
+    // ผูกปุ่ม Copy
+    function bindCopyBtn(btnId, statusId) {
+      const old = document.getElementById(btnId);
       if (!old) return;
       const neo = old.cloneNode(true);
       old.parentNode.replaceChild(neo, old);
       neo.addEventListener('click', () => {
-        copyToClipboard(msg).catch(() => {});
-        window.open(id === 'btnOpenLine' ? lineUrl : messengerUrl, '_blank');
+        copyToClipboard(msg).then(() => {
+          neo.textContent = '✅ คัดลอกแล้ว!';
+          neo.classList.add('copied');
+          const status = document.getElementById(statusId);
+          if (status) status.textContent = '✅ คัดลอกแล้ว! เปิด LINE/Messenger แล้วกด Ctrl+V ได้เลย';
+          setTimeout(() => {
+            neo.textContent = '📋 Copy ข้อความ';
+            neo.classList.remove('copied');
+            if (status) status.textContent = '';
+          }, 4000);
+        }).catch(() => {
+          neo.textContent = '⚠️ ลอง Ctrl+C แทน';
+        });
       });
-    });
+    }
+    bindCopyBtn('btnCopyLine',      'copiedStatusLine');
+    bindCopyBtn('btnCopyMessenger', 'copiedStatusMs');
 
     switchSendTab(channel);
     modal.classList.add('active');

@@ -4826,3 +4826,155 @@ ul { list-style: none; }
   .send-modal-box { padding: 24px 18px 22px; }
   .send-modal-title { font-size: 1.05rem; }
 }
+
+/* ============================================================
+   SEND MODAL — Path Cards (ปรับปรุงใหม่)
+   ============================================================ */
+
+.send-modal-box {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.send-path-card {
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.send-path-mobile {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 1.5px solid #bbf7d0;
+}
+.send-path-desktop {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  border: 1.5px solid #bfdbfe;
+}
+.send-path-title { margin-bottom: 10px; }
+.send-path-badge {
+  font-family: var(--font-main);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+.send-path-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.send-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.send-step-num {
+  min-width: 22px;
+  height: 22px;
+  background: var(--dark);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.send-path-mobile .send-step-num { background: #16a34a; }
+.send-path-desktop .send-step-num { background: #2563eb; }
+
+.send-qr-box-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+/* Action group — 2 ปุ่มเคียงกัน */
+.send-action-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+.send-btn-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border: 2px solid #16a34a;
+  border-radius: 50px;
+  background: white;
+  color: #16a34a;
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.send-btn-copy:hover {
+  background: #16a34a;
+  color: white;
+}
+.send-btn-copy.copied {
+  background: #16a34a;
+  color: white;
+  border-color: #16a34a;
+}
+.send-btn-copy-ms { border-color: #0084ff; color: #0084ff; }
+.send-btn-copy-ms:hover { background: #0084ff; color: white; }
+.send-btn-copy-ms.copied { background: #0084ff; color: white; }
+
+.send-copied-status {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: #16a34a;
+  text-align: center;
+  min-height: 20px;
+  margin-top: 6px;
+}
+
+@media (max-width: 420px) {
+  .send-action-group { grid-template-columns: 1fr; }
+}
+
+/* Send Modal — Single full-width copy button */
+.send-action-single {
+  grid-template-columns: 1fr !important;
+}
+.send-btn-copy-full {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 1rem;
+}
+
+/* Send Modal — subtitle สีชัด */
+.send-modal-sub {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: #b45309;
+  background: #fef9c3;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 6px 12px;
+  display: inline-block;
+  margin: 0 auto;
+}
+.send-modal-sub strong { color: #92400e; }
+
+/* Send step note */
+.send-step-note {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: #b45309;
+  background: #fef9c3;
+  border-radius: 6px;
+  padding: 4px 8px;
+  line-height: 1.5;
+}
+.send-step-note strong { color: #92400e; }
