@@ -639,50 +639,20 @@
 
           <!-- ปุ่ม Submit — LINE + Messenger -->
           <div class="form-submit-wrap">
-            <p class="form-channel-label">เลือกช่องทางที่สะดวก</p>
             <div class="form-submit-btns">
-              <!-- LINE -->
-              <button type="submit" class="btn-bk-line" id="btnSubmitLine" data-channel="line">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.630 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
-                </svg>
+              <button type="submit" class="btn-bk-line" id="btnSubmitLine">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.630 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
                 <span>ส่งผ่าน LINE</span>
               </button>
-              <!-- Messenger -->
               <button type="button" class="btn-bk-messenger" id="btnSubmitMessenger">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.652V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111S18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.561 6.963z"/>
-                </svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.652V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111S18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.561 6.963z"/></svg>
                 <span>ส่งผ่าน Messenger</span>
               </button>
             </div>
-            <!-- Toast แจ้งเตือน copy สำเร็จ -->
-            <div class="bk-copy-toast" id="bkCopyToast">
-              <span class="toast-icon">✅</span>
-              <span class="toast-text">✅ คัดลอกข้อความแล้ว! กด Paste ใน LINE หรือ Messenger เพื่อส่ง</span>
-            </div>
-            <div class="form-submit-note-row">
-              <span class="form-submit-note">📋 ระบบจะคัดลอกข้อความให้อัตโนมัติ · กด Paste ใน LINE หรือ Messenger เพื่อส่ง</span>
-            </div>
+            <p class="form-submit-note">📋 ระบบจะคัดลอกข้อความ + แสดง QR ให้สแกนด้วยมือถือ</p>
           </div>
 
         </form>
-      </div>
-
-      <!-- Modal แสดงข้อความจอง สำหรับ copy บน mobile -->
-      <div class="msg-modal-overlay" id="msgModalOverlay">
-        <div class="msg-modal">
-          <div class="msg-modal-header">
-            <span class="msg-modal-title">📋 ข้อความจอง</span>
-            <button class="msg-modal-close" id="msgModalClose">✕</button>
-          </div>
-          <p class="msg-modal-hint">กดค้างที่ข้อความแล้วเลือก "คัดลอกทั้งหมด" แล้วไปวางใน LINE หรือ Messenger</p>
-          <textarea class="msg-modal-text" id="msgModalText" readonly></textarea>
-          <div class="msg-modal-btns">
-            <button class="msg-modal-btn-copy" id="msgModalCopy">📋 คัดลอกข้อความ</button>
-            <a class="msg-modal-btn-line" id="msgModalLine" href="https://line.me/ti/p/@alo2064u" target="_blank">เปิด LINE</a>
-          </div>
-        </div>
       </div>
 
       <!-- ขวา: Preview + Info -->
@@ -1148,6 +1118,64 @@
     <span>Messenger</span>
   </a>
 
+  <!-- ========== SEND MODAL (QR + Desktop) ========== -->
+  <div id="sendModal" class="send-modal" role="dialog" aria-modal="true">
+    <div class="send-modal-box">
+      <button class="send-modal-close" id="sendModalClose" aria-label="ปิด">✕</button>
+      <div class="send-modal-header">
+        <div class="send-modal-icon">✅</div>
+        <h3 class="send-modal-title">ข้อความพร้อมส่งแล้ว!</h3>
+        <p class="send-modal-sub">เลือกช่องทางที่สะดวก</p>
+      </div>
+      <!-- แท็บ LINE / Messenger -->
+      <div class="send-modal-tabs">
+        <button class="send-tab active" id="tabLine">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.630 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+          LINE
+        </button>
+        <button class="send-tab" id="tabMessenger">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.652V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111S18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.561 6.963z"/></svg>
+          Messenger
+        </button>
+      </div>
+      <!-- Panel LINE -->
+      <div class="send-panel" id="panelLine">
+        <div class="send-qr-wrap">
+          <div class="send-qr-label">📱 ใช้มือถือสแกน QR นี้</div>
+          <div id="qrLine" class="send-qr-box"></div>
+          <div class="send-qr-hint">สแกน → เปิด LINE → วางข้อความ → ส่ง</div>
+        </div>
+        <div class="send-divider"><span>หรือ</span></div>
+        <div class="send-desktop-wrap">
+          <div class="send-desktop-label">💻 ใช้คอมเปิด LINE Desktop</div>
+          <button class="send-btn-open send-btn-line" id="btnOpenLine">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.630 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+            เปิด LINE &amp; วางข้อความ
+          </button>
+          <p class="send-copy-note">📋 คัดลอกข้อความแล้ว — กด <kbd>Ctrl+V</kbd> ใน LINE เพื่อส่ง</p>
+        </div>
+      </div>
+      <!-- Panel Messenger -->
+      <div class="send-panel" id="panelMessenger" style="display:none;">
+        <div class="send-qr-wrap">
+          <div class="send-qr-label">📱 ใช้มือถือสแกน QR นี้</div>
+          <div id="qrMessenger" class="send-qr-box"></div>
+          <div class="send-qr-hint">สแกน → เปิด Messenger → วางข้อความ → ส่ง</div>
+        </div>
+        <div class="send-divider"><span>หรือ</span></div>
+        <div class="send-desktop-wrap">
+          <div class="send-desktop-label">💻 ใช้คอมเปิด Messenger</div>
+          <button class="send-btn-open send-btn-messenger" id="btnOpenMessenger">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.652V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111S18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.561 6.963z"/></svg>
+            เปิด Messenger &amp; วางข้อความ
+          </button>
+          <p class="send-copy-note">📋 คัดลอกข้อความแล้ว — กด <kbd>Ctrl+V</kbd> ใน Messenger เพื่อส่ง</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="./js/main.js"></script>
   <script src="./js/gallery.js"></script>
 </body>
