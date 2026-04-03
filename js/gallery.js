@@ -34,33 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const track = document.getElementById(trackId);
       if (!track) return;
 
-      // เคลียร์ placeholder
       track.innerHTML = '';
-      let loaded = 0;
+      let loaded  = 0;
+      let settled = 0;
+      const total = end - start + 1;
 
-      for (let i = start; i <= end; i++) {
-        const filename = `${prefix}${i}.jpg`;
-        const src = `./img/${filename}`;
-
-        const wrapper = document.createElement('div');
-        wrapper.style.cssText = 'flex-shrink:0;width:100%;height:100%;scroll-snap-align:start;';
-
-        loadImg(src,
-          (img, actualSrc) => {
-            img.style.cssText = 'width:100%;height:100%;object-fit:cover;scroll-snap-align:start;';
-            img.alt = filename;
-            img.dataset.src = actualSrc;
-            img.dataset.caption = filename;
-            track.appendChild(img);
-            loaded++;
-            updateDots(track, loaded);
-          },
-          () => { /* ไม่มีรูป — ข้ามไป */ }
-        );
-      }
-
-      // ถ้าไม่มีรูปเลย แสดง placeholder
-      setTimeout(() => {
+      function onAllSettled() {
         if (track.children.length === 0) {
           track.innerHTML = `<div class="room-ph"><span>ยังไม่มีรูปภาพ</span></div>`;
         } else {
@@ -68,7 +47,30 @@ document.addEventListener('DOMContentLoaded', () => {
           enableDragScroll(track);
           bindRoomLightbox(track);
         }
-      }, 1500);
+      }
+
+      for (let i = start; i <= end; i++) {
+        const filename = `${prefix}${i}.jpg`;
+        const src = `./img/${filename}`;
+
+        loadImg(src,
+          (img, actualSrc) => {
+            img.style.cssText = 'width:100%;height:100%;object-fit:cover;scroll-snap-align:start;flex-shrink:0;';
+            img.alt = filename;
+            img.dataset.src = actualSrc;
+            img.dataset.caption = filename;
+            track.appendChild(img);
+            loaded++;
+            updateDots(track, loaded);
+            settled++;
+            if (settled === total) onAllSettled();
+          },
+          () => {
+            settled++;
+            if (settled === total) onAllSettled();
+          }
+        );
+      }
     });
   }
 
@@ -167,6 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function bindVillaLightbox() {
     const items = document.querySelectorAll('#villaTrack .hscroll-item');
     items.forEach((item, i) => {
+      if (item.dataset.lbBound) return;
+      item.dataset.lbBound = '1';
       item.addEventListener('click', () => openLightbox([...items], i));
     });
   }
@@ -183,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentItems = [];
   let currentIndex = 0;
+  const lbWrap = lightbox.querySelector('.lb-img-wrap');
 
   function openLightbox(items, index) {
     currentItems = items;
@@ -203,11 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const src     = item.dataset.src || '';
     const caption = item.dataset.caption || '';
 
-    // reset animation ทุกครั้งที่เปลี่ยนรูป
-    const wrap = document.querySelector('.lb-img-wrap');
-    wrap.style.animation = 'none';
-    wrap.offsetHeight; // reflow
-    wrap.style.animation = '';
+    lbWrap.style.animation = 'none';
+    lbWrap.offsetHeight;
+    lbWrap.style.animation = '';
 
     lbImg.src     = src;
     lbImg.onerror = () => { lbImg.style.display = 'none'; };
@@ -264,6 +267,63 @@ document.addEventListener('DOMContentLoaded', () => {
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
+
+  /* ---------- Touch Swipe (mobile) ----------
+     ปัดซ้าย → รูปถัดไป | ปัดขวา → รูปก่อนหน้า | ปัดลง → ปิด
+  ------------------------------------------ */
+  (function initSwipe() {
+    const SWIPE_THRESHOLD = 50;
+    const SWIPE_MAX_Y     = 80;
+    const CLOSE_THRESHOLD = 100;
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchDeltaX = 0;
+    let isDragging  = false;
+
+    const wrap = lbWrap;
+
+    function resetTransform() {
+      wrap.style.transition = 'transform 0.25s ease';
+      wrap.style.transform  = 'translateX(0) rotate(0deg)';
+      setTimeout(() => { wrap.style.transition = ''; }, 260);
+    }
+
+    lightbox.addEventListener('touchstart', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchDeltaX = 0;
+      isDragging  = true;
+    }, { passive: true });
+
+    lightbox.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      touchDeltaX       = e.touches[0].clientX - touchStartX;
+      const touchDeltaY = e.touches[0].clientY - touchStartY;
+      if (Math.abs(touchDeltaY) > SWIPE_MAX_Y && Math.abs(touchDeltaX) < SWIPE_THRESHOLD) {
+        isDragging = false;
+        resetTransform();
+        return;
+      }
+      const shift     = Math.max(-80, Math.min(80, touchDeltaX * 0.4));
+      const rotateDeg = touchDeltaX * 0.02;
+      wrap.style.transition = 'none';
+      wrap.style.transform  = `translateX(${shift}px) rotate(${rotateDeg}deg)`;
+    }, { passive: true });
+
+    lightbox.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      const touchDeltaY = e.changedTouches[0].clientY - touchStartY;
+      if (touchDeltaY > CLOSE_THRESHOLD && Math.abs(touchDeltaX) < SWIPE_THRESHOLD) {
+        resetTransform(); closeLightbox(); return;
+      }
+      if (touchDeltaX < -SWIPE_THRESHOLD) { resetTransform(); nextItem(); return; }
+      if (touchDeltaX >  SWIPE_THRESHOLD) { resetTransform(); prevItem(); return; }
+      resetTransform();
+    }, { passive: true });
+  })();
 
   /* ---------- Drag-to-scroll ---------- */
   function enableDragScroll(track) {
