@@ -896,7 +896,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navigator.clipboard && window.isSecureContext) {
       return navigator.clipboard.writeText(text);
     }
-    // Fallback for older browsers / http
     const ta = document.createElement('textarea');
     ta.value = text;
     ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
@@ -907,56 +906,83 @@ document.addEventListener('DOMContentLoaded', () => {
     return Promise.resolve();
   }
 
-  /* ---- Show toast ---- */
-  function showCopyToast() {
-    const toast = $('bkCopyToast');
-    if (!toast) return;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 7000);
+  /* ---- Send Modal (QR + Desktop) ---- */
+  let _qrLineObj = null, _qrMsObj = null;
+
+  function openSendModal(channel) {
+    const msg          = buildMessage();
+    const lineUrl      = 'https://line.me/ti/p/@alo2064u';
+    const messengerUrl = (window.MESSENGER_URL && !window.MESSENGER_URL.includes('YOUR_PAGE_NAME'))
+      ? window.MESSENGER_URL : 'https://www.facebook.com/pappoolvilla/';
+
+    copyToClipboard(msg).catch(() => {});
+
+    const modal = document.getElementById('sendModal');
+    if (!modal) return;
+
+    // สร้าง QR ครั้งแรกเท่านั้น
+    const qrLineEl = document.getElementById('qrLine');
+    if (qrLineEl && !_qrLineObj) {
+      _qrLineObj = new QRCode(qrLineEl, {
+        text: lineUrl, width: 180, height: 180,
+        colorDark: '#06c755', colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+    const qrMsEl = document.getElementById('qrMessenger');
+    if (qrMsEl && !_qrMsObj) {
+      _qrMsObj = new QRCode(qrMsEl, {
+        text: messengerUrl, width: 180, height: 180,
+        colorDark: '#0084ff', colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+
+    // ผูกปุ่ม Desktop (clone เพื่อล้าง listener เก่า)
+    ['btnOpenLine', 'btnOpenMessenger'].forEach(id => {
+      const old = document.getElementById(id);
+      if (!old) return;
+      const neo = old.cloneNode(true);
+      old.parentNode.replaceChild(neo, old);
+      neo.addEventListener('click', () => {
+        copyToClipboard(msg).catch(() => {});
+        window.open(id === 'btnOpenLine' ? lineUrl : messengerUrl, '_blank');
+      });
+    });
+
+    switchSendTab(channel);
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
   }
+
+  function closeSendModal() {
+    const modal = document.getElementById('sendModal');
+    if (modal) modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function switchSendTab(tab) {
+    document.getElementById('panelLine').style.display      = tab === 'line'      ? 'block' : 'none';
+    document.getElementById('panelMessenger').style.display = tab === 'messenger' ? 'block' : 'none';
+    document.getElementById('tabLine').classList.toggle('active',      tab === 'line');
+    document.getElementById('tabMessenger').classList.toggle('active', tab === 'messenger');
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('sendModalClose')?.addEventListener('click', closeSendModal);
+    document.getElementById('sendModal')?.addEventListener('click', e => {
+      if (e.target === document.getElementById('sendModal')) closeSendModal();
+    });
+    document.getElementById('tabLine')?.addEventListener('click',      () => switchSendTab('line'));
+    document.getElementById('tabMessenger')?.addEventListener('click', () => switchSendTab('messenger'));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSendModal(); });
+  });
 
   /* ---- Submit → LINE ---- */
-  function submitViaLine() {
-    const msg = buildMessage();
-    const lineUrl = 'https://line.me/ti/p/@alo2064u';
+  function submitViaLine()      { openSendModal('line'); }
 
-    // copy ก่อน (sync fallback) แล้วเปิด LINE ทันที
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(msg).catch(() => {});
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = msg;
-      ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
-      document.body.appendChild(ta);
-      ta.focus(); ta.select();
-      try { document.execCommand('copy'); } catch(e) {}
-      document.body.removeChild(ta);
-    }
-    showCopyToast();
-    window.open(lineUrl, '_blank');
-  }
-
-  /* ---- Submit → Messenger (copy + open) ---- */
-  function submitViaMessenger() {
-    const msg = buildMessage();
-    const messengerUrl = (window.MESSENGER_URL && !window.MESSENGER_URL.includes('YOUR_PAGE_NAME'))
-      ? window.MESSENGER_URL
-      : 'https://m.me/pappoolvilla';
-
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(msg).catch(() => {});
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = msg;
-      ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
-      document.body.appendChild(ta);
-      ta.focus(); ta.select();
-      try { document.execCommand('copy'); } catch(e) {}
-      document.body.removeChild(ta);
-    }
-    showCopyToast();
-    window.open(messengerUrl, '_blank');
-  }
+  /* ---- Submit → Messenger ---- */
+  function submitViaMessenger() { openSendModal('messenger'); }
 
   /* ---- Init form submit ---- */
   function initFormSubmit() {
