@@ -195,6 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
     showItem(currentIndex);
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
+    // push history เพื่อให้ปุ่มย้อนกลับมือถือปิด lightbox แทนออกจากเว็บ
+    history.pushState({ modal: 'lightbox' }, '');
   }
 
   function closeLightbox() {
@@ -266,6 +268,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
+  });
+
+  // ปุ่มย้อนกลับมือถือ → ปิด lightbox แทนออกจากเว็บ
+  window.addEventListener('popstate', (e) => {
+    if (e.state && e.state.modal === 'lightbox') {
+      closeLightbox();
+    }
   });
 
   /* ---------- Touch Swipe (mobile) ----------

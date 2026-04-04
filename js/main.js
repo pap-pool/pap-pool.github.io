@@ -966,6 +966,8 @@ document.addEventListener('DOMContentLoaded', () => {
     switchSendTab(channel);
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    // push history เพื่อให้ปุ่มย้อนกลับมือถือปิด modal แทนออกจากเว็บ
+    history.pushState({ modal: 'send' }, '');
   }
 
   function closeSendModal() {
@@ -989,6 +991,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('tabLine')?.addEventListener('click',      () => switchSendTab('line'));
     document.getElementById('tabMessenger')?.addEventListener('click', () => switchSendTab('messenger'));
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSendModal(); });
+
+    // ปุ่มย้อนกลับมือถือ → ปิด modal แทนออกจากเว็บ
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.modal === 'send') {
+        closeSendModal();
+      }
+    });
   });
 
   /* ---- Submit → LINE ---- */

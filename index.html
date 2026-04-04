@@ -650,8 +650,7 @@
               </button>
             </div>
             <p class="form-submit-note">
-              <span class="note-mobile">📱 มือถือ — กดปุ่มด้านบนได้เลย LINE/Messenger จะเปิดทันที</span>
-              <span class="note-desktop">💻 คอมพิวเตอร์ — ระบบจะ Copy ข้อความให้ แล้ววางใน LINE/Messenger</span>
+              <span class="note-mobile">📋 กดปุ่มเพื่อ Copy ข้อความ → เปิดแอป LINE หรือ Messenger เอง → วางข้อความ → ส่ง</span>
             </p>
           </div>
 
@@ -1007,24 +1006,53 @@
       <div class="contact-reviews-col animate-on-scroll">
         <div class="contact-card contact-card-reviews">
           <div class="contact-card-body">
-            <h4 class="contact-card-title" style="margin-bottom:10px;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="#1877f2" style="vertical-align:middle;margin-right:6px;"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              REVIEWS ON FACEBOOK
+            <h4 class="contact-card-title" style="margin-bottom:14px;">
+              ⭐ รีวิวจากลูกค้า
             </h4>
-            <!-- Facebook Reviews Plugin -->
-            <div class="fb-page-iframe-wrap">
-              <iframe
-                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fpappoolvilla&tabs=reviews&width=340&height=380&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
-                width="100%" height="380"
-                style="border:none;overflow:hidden;border-radius:10px;"
-                scrolling="no" frameborder="0" allowfullscreen="true"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-              </iframe>
-            </div>
-            <a href="https://www.facebook.com/pappoolvilla/reviews" target="_blank" class="contact-google-review-btn" style="margin-top:8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              ดูรีวิวทั้งหมดบน Facebook
+
+            <!-- =====================================================
+                 วิธีเพิ่มรีวิวใหม่ (ทำเองได้ง่ายๆ):
+                 1. Copy บล็อก review-card ด้านล่าง 1 บล็อก
+                 2. วางต่อท้ายรีวิวสุดท้าย (ก่อน </div> ที่มี comment "สิ้นสุดรีวิว")
+                 3. แก้ข้อมูล 4 จุด:
+                    - data-stars="5"       → จำนวนดาว (1-5)
+                    - ชื่อผู้รีวิว          → แก้ใน <span class="rv-name">
+                    - เดือน ปี             → แก้ใน <span class="rv-date">
+                    - ข้อความรีวิว         → แก้ใน <p class="rv-text">
+                 4. Save → Upload index.html ขึ้น GitHub
+                 ===================================================== -->
+
+            <div class="reviews-list">
+
+              <!-- ★ รีวิวที่ 1 — แก้ข้อมูลด้านล่างนี้ -->
+              <div class="review-card" data-stars="5">
+                <div class="rv-header">
+                  <div class="rv-avatar">W</div>
+                  <div class="rv-meta">
+                    <span class="rv-name">Wanitcha Puangpikul</span>
+                    <span class="rv-date">เมษายน 2568</span>
+                  </div>
+                  <div class="rv-stars">⭐⭐⭐⭐⭐</div>
+                </div>
+                <p class="rv-text">"บ้านพักใหม่มาก สะอาด สวย กว้างขวาง เจ้าของบ้านเป็นกันเอง เหมาะสำหรับครอบครัวไปพักผ่อน ชอบมากค่ะ"</p>
+                <div class="rv-source">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  Facebook
+                </div>
+              </div>
+              <!-- สิ้นสุดรีวิวที่ 1 -->
+
+              <!-- =====================================================
+                   เพิ่มรีวิวใหม่ตรงนี้ — Copy บล็อกด้านบนมาวาง
+                   ===================================================== -->
+
+            </div><!-- สิ้นสุดรีวิว -->
+
+            <a href="https://www.google.com/maps/place/PaP+Pool+Villa+Cha-Am/@12.7993992,99.9110387,17z" target="_blank" class="contact-google-review-btn" style="margin-top:12px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fbbc04"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ดูรีวิวทั้งหมดบน Google Maps
             </a>
+
           </div>
         </div>
       </div>
@@ -1129,25 +1157,10 @@
       <div class="send-modal-header">
         <div class="send-modal-icon">✅</div>
         <h3 class="send-modal-title">ข้อความพร้อมส่งแล้ว!</h3>
-        <div class="send-modal-device-guide">
-          <div class="send-device-row send-device-mobile">
-            <span class="send-device-icon">📱</span>
-            <div>
-              <strong>ใช้มือถือ</strong> — ปิด popup นี้ แล้วกดปุ่ม<br/>
-              "ส่งผ่าน LINE" หรือ "ส่งผ่าน Messenger"<br/>
-              <span class="send-device-sub">แอปจะเปิดทันที → กดค้างช่องพิมพ์ → Paste → ส่ง</span>
-            </div>
-          </div>
-          <div class="send-device-row send-device-desktop">
-            <span class="send-device-icon">💻</span>
-            <div>
-              <strong>ใช้คอมพิวเตอร์</strong> — ใช้แท็บด้านล่างนี้ได้เลย<br/>
-              <span class="send-device-sub">กด Copy → เปิด LINE หรือ Messenger → Ctrl+V → ส่ง</span>
-            </div>
-          </div>
-        </div>
+        <p class="send-modal-hint-top">เลือกช่องทางที่ต้องการส่ง</p>
       </div>
 
+      <!-- แท็บ LINE / Messenger -->
       <div class="send-modal-tabs">
         <button class="send-tab active" id="tabLine">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.630 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
@@ -1161,12 +1174,23 @@
 
       <!-- Panel LINE -->
       <div class="send-panel" id="panelLine">
-        <div class="send-path-card send-path-desktop">
-          <div class="send-path-title"><span class="send-path-badge">💻 LINE บนคอม</span></div>
-          <div class="send-path-steps">
-            <div class="send-step"><span class="send-step-num">1</span><span>กดปุ่ม <strong>"Copy ข้อความ"</strong> ด้านล่าง</span></div>
-            <div class="send-step"><span class="send-step-num">2</span><span>เปิด <strong>LINE Desktop</strong> หรือ <a href="https://line.me" target="_blank" style="color:#2563eb;font-weight:700;">line.me</a> — <span class="send-step-note">⚠️ ต้องเพิ่มเพื่อน <strong>@alo2064u</strong> ก่อน แล้วเปิดห้องแชต PAP Pool Villa</span></span></div>
-            <div class="send-step"><span class="send-step-num">3</span><span>คลิกช่องพิมพ์ข้อความ → กด <kbd>Ctrl</kbd>+<kbd>V</kbd> หรือ คลิกขวา → <strong>วาง</strong> → ส่ง</span></div>
+        <div class="send-steps-card send-steps-line">
+          <div class="send-steps-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#06c755"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.630 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.105.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+            วิธีส่งผ่าน LINE
+          </div>
+          <div class="send-step"><span class="send-step-num send-step-green">1</span>
+            <span>กดปุ่ม <strong>"Copy ข้อความ"</strong> ด้านล่าง</span>
+          </div>
+          <div class="send-step"><span class="send-step-num send-step-green">2</span>
+            <span>เปิดแอป <strong>LINE</strong> เอง<br/>
+            <span class="send-step-note-green">⚠️ ต้องเพิ่มเพื่อน <strong>@alo2064u</strong> ก่อน แล้วเปิดห้องแชต PAP Pool Villa</span></span>
+          </div>
+          <div class="send-step"><span class="send-step-num send-step-green">3</span>
+            <span>คลิกช่องพิมพ์ข้อความ<br/>
+            💻 คอม → กด <kbd>Ctrl</kbd>+<kbd>V</kbd> หรือ คลิกขวา → <strong>วาง</strong><br/>
+            📱 มือถือ → กดค้าง → <strong>วาง (Paste)</strong><br/>
+            แล้วกด <strong>ส่ง</strong></span>
           </div>
         </div>
         <div class="send-action-group send-action-single">
@@ -1177,12 +1201,23 @@
 
       <!-- Panel Messenger -->
       <div class="send-panel" id="panelMessenger" style="display:none;">
-        <div class="send-path-card send-path-desktop">
-          <div class="send-path-title"><span class="send-path-badge">💻 Messenger บนคอม</span></div>
-          <div class="send-path-steps">
-            <div class="send-step"><span class="send-step-num">1</span><span>กดปุ่ม <strong>"Copy ข้อความ"</strong> ด้านล่าง</span></div>
-            <div class="send-step"><span class="send-step-num">2</span><span>เปิด <a href="https://www.facebook.com/pappoolvilla/" target="_blank" style="color:#2563eb;font-weight:700;">facebook.com/pappoolvilla</a> ใน browser แล้วกด <strong>Message</strong></span></div>
-            <div class="send-step"><span class="send-step-num">3</span><span>คลิกช่องพิมพ์ข้อความ → กด <kbd>Ctrl</kbd>+<kbd>V</kbd> หรือ คลิกขวา → <strong>วาง</strong> → ส่ง</span></div>
+        <div class="send-steps-card send-steps-ms">
+          <div class="send-steps-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#0084ff"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.652V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111S18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.561 6.963z"/></svg>
+            วิธีส่งผ่าน Messenger
+          </div>
+          <div class="send-step"><span class="send-step-num send-step-blue">1</span>
+            <span>กดปุ่ม <strong>"Copy ข้อความ"</strong> ด้านล่าง</span>
+          </div>
+          <div class="send-step"><span class="send-step-num send-step-blue">2</span>
+            <span>เปิดแอป <strong>Messenger</strong> หรือ <a href="https://www.facebook.com/pappoolvilla/" target="_blank" style="color:#0084ff;font-weight:700;">facebook.com/pappoolvilla</a> เอง<br/>
+            <span class="send-step-note-blue">แล้วกดปุ่ม <strong>Message</strong> เพื่อเปิดห้องแชต</span></span>
+          </div>
+          <div class="send-step"><span class="send-step-num send-step-blue">3</span>
+            <span>คลิกช่องพิมพ์ข้อความ<br/>
+            💻 คอม → กด <kbd>Ctrl</kbd>+<kbd>V</kbd> หรือ คลิกขวา → <strong>วาง</strong><br/>
+            📱 มือถือ → กดค้าง → <strong>วาง (Paste)</strong><br/>
+            แล้วกด <strong>ส่ง</strong></span>
           </div>
         </div>
         <div class="send-action-group send-action-single">

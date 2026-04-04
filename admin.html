@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — PAP Pool Villa · จัดการรีวิว</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Mitr:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:      #06c755;
+      --green-dark: #04a845;
+      --blue:       #0084ff;
+      --dark:       #1a1a2e;
+      --gray:       #f4f6f9;
+      --border:     #e2e8f0;
+      --text:       #334155;
+      --text-light: #94a3b8;
+      --radius:     14px;
+      --shadow:     0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: #f0f4f8;
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .admin-header {
+      background: linear-gradient(135deg, var(--dark), #16213e);
+      color: white;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .admin-header-icon { font-size: 2rem; }
+    .admin-header-text h1 {
+      font-family: 'Mitr', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .admin-header-text p {
+      font-size: 0.82rem;
+      opacity: 0.6;
+      margin-top: 2px;
+    }
+
+    /* ── Layout ── */
+    .admin-body {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 28px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 680px) {
+      .admin-body { grid-template-columns: 1fr; }
+    }
+
+    /* ── Card ── */
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    .card-title {
+      font-family: 'Mitr', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--gray);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── Form ── */
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .form-label span { color: #ef4444; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 0.92rem;
+      color: var(--text);
+      background: white;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(6,199,85,0.12);
+    }
+    .form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+    /* ── Stars ── */
+    .star-group {
+      display: flex;
+      gap: 6px;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+    .star-group input { display: none; }
+    .star-group label {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #d1d5db;
+      transition: color 0.15s, transform 0.15s;
+      line-height: 1;
+    }
+    .star-group label:hover,
+    .star-group label:hover ~ label,
+    .star-group input:checked ~ label { color: #fbbf24; }
+    .star-group label:hover { transform: scale(1.15); }
+
+    /* ── Source toggle ── */
+    .source-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .source-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 10px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 0.86rem;
+      font-weight: 600;
+      background: white;
+      color: var(--text-light);
+      transition: all 0.2s;
+    }
+    .source-btn.active-google {
+      border-color: #fbbc04;
+      background: #fffbeb;
+      color: #92400e;
+    }
+    .source-btn.active-fb {
+      border-color: #1877f2;
+      background: #eff6ff;
+      color: #1e40af;
+    }
+
+    /* ── Generate button ── */
+    .btn-generate {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Mitr', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 6px 20px rgba(6,199,85,0.3);
+      margin-top: 8px;
+    }
+    .btn-generate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(6,199,85,0.4);
+    }
+    .btn-generate:active { transform: translateY(0); }
+
+    /* ── Preview ── */
+    .preview-box {
+      background: var(--gray);
+      border-radius: var(--radius);
+      padding: 16px;
+      min-height: 120px;
+      margin-bottom: 16px;
+    }
+    .preview-empty {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.86rem;
+      padding: 24px 0;
+    }
+
+    /* ── Review card preview ── */
+    .rv-preview-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .rv-preview-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .rv-preview-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0097b2, #006f87);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+    }
+    .rv-preview-name { font-weight: 700; font-size: 0.88rem; color: var(--dark); }
+    .rv-preview-date { font-size: 0.75rem; color: var(--text-light); margin-top: 1px; }
+    .rv-preview-stars { margin-left: auto; font-size: 0.82rem; }
+    .rv-preview-text {
+      font-size: 0.86rem; line-height: 1.6;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .rv-preview-source {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 0.72rem; color: var(--text-light);
+    }
+
+    /* ── Code output ── */
+    .code-wrap {
+      position: relative;
+    }
+    .code-output {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 280px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+    }
+    .btn-copy-code {
+      width: 100%;
+      padding: 12px;
+      background: var(--dark);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Mitr', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-copy-code:hover { background: #2d2d44; }
+    .btn-copy-code.copied { background: var(--green); }
+
+    /* ── How to use ── */
+    .how-to {
+      grid-column: 1 / -1;
+    }
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--gray);
+      border-radius: 10px;
+    }
+    .step-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--dark);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-text { font-size: 0.88rem; line-height: 1.6; }
+    .step-text strong { color: var(--dark); }
+    .step-text code {
+      background: #e2e8f0;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      color: #dc2626;
+    }
+
+    .warning-box {
+      background: #fef9c3;
+      border: 1.5px solid #fde68a;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.84rem;
+      color: #92400e;
+      margin-top: 16px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="admin-header">
+    <div class="admin-header-icon">🏊</div>
+    <div class="admin-header-text">
+      <h1>PAP Pool Villa — จัดการรีวิว</h1>
+      <p>Admin Panel · กรอกข้อมูล → Copy โค้ด → วางใน index.html</p>
+    </div>
+  </header>
+
+  <div class="admin-body">
+
+    <!-- ฟอร์มกรอกข้อมูล -->
+    <div class="card">
+      <div class="card-title">✏️ กรอกข้อมูลรีวิว</div>
+
+      <div class="form-group">
+        <label class="form-label">ชื่อผู้รีวิว <span>*</span></label>
+        <input type="text" class="form-input" id="rvName" placeholder="เช่น Wanitcha Puangpikul" oninput="updatePreview()" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">เดือน และ ปี (พ.ศ.) <span>*</span></label>
+        <input type="text" class="form-input" id="rvDate" placeholder="เช่น เมษายน 2568" oninput="updatePreview()" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">จำนวนดาว <span>*</span></label>
+        <div class="star-group" id="starGroup">
+          <input type="radio" name="stars" id="s5" value="5" checked onchange="updatePreview()" />
+          <label for="s5">★</label>
+          <input type="radio" name="stars" id="s4" value="4" onchange="updatePreview()" />
+          <label for="s4">★</label>
+          <input type="radio" name="stars" id="s3" value="3" onchange="updatePreview()" />
+          <label for="s3">★</label>
+          <input type="radio" name="stars" id="s2" value="2" onchange="updatePreview()" />
+          <label for="s2">★</label>
+          <input type="radio" name="stars" id="s1" value="1" onchange="updatePreview()" />
+          <label for="s1">★</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">แหล่งที่มา</label>
+        <div class="source-group">
+          <button class="source-btn active-google" id="btnGoogle" onclick="setSource('google')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#fbbc04"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Google Maps
+          </button>
+          <button class="source-btn" id="btnFacebook" onclick="setSource('facebook')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ข้อความรีวิว <span>*</span></label>
+        <textarea class="form-textarea" id="rvText" placeholder='เช่น "บ้านพักสวยมาก สะอาด เจ้าของใจดี..."' oninput="updatePreview()"></textarea>
+      </div>
+
+      <button class="btn-generate" onclick="generateCode()">
+        ✨ สร้างโค้ดรีวิว
+      </button>
+    </div>
+
+    <!-- Preview + Code -->
+    <div class="card">
+      <div class="card-title">👁️ Preview &amp; โค้ด</div>
+
+      <div class="preview-box" id="previewBox">
+        <div class="preview-empty">กรอกข้อมูลด้านซ้าย<br/>แล้วกด "สร้างโค้ดรีวิว"</div>
+      </div>
+
+      <div class="code-wrap" id="codeWrap" style="display:none;">
+        <pre class="code-output" id="codeOutput"></pre>
+        <button class="btn-copy-code" id="btnCopy" onclick="copyCode()">
+          📋 Copy โค้ด
+        </button>
+      </div>
+    </div>
+
+    <!-- วิธีใช้งาน -->
+    <div class="card how-to">
+      <div class="card-title">📖 วิธีนำโค้ดไปใส่ใน index.html (ทำครั้งเดียวจำได้เลย)</div>
+      <div class="steps-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-text">กรอกข้อมูลรีวิวด้านบน แล้วกดปุ่ม <strong>"สร้างโค้ดรีวิว"</strong> จากนั้นกด <strong>"Copy โค้ด"</strong></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-text">เปิดไฟล์ <strong>index.html</strong> ด้วย <strong>Notepad</strong> (คลิกขวาที่ไฟล์ → Open with → Notepad)</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-text">กด <code>Ctrl+F</code> แล้วค้นหาคำว่า <code>เพิ่มรีวิวใหม่ตรงนี้</code> จะเจอบรรทัดนี้ในไฟล์</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-text">คลิกหน้าบรรทัด <code>เพิ่มรีวิวใหม่ตรงนี้</code> แล้ว Enter ขึ้นบรรทัดใหม่ด้านบน จากนั้นกด <code>Ctrl+V</code> วางโค้ด</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-text">กด <code>Ctrl+S</code> บันทึกไฟล์ แล้วอัปโหลด <strong>index.html</strong> ขึ้น <strong>GitHub</strong> ทับไฟล์เดิม</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">6</div>
+          <div class="step-text">รอประมาณ <strong>1-2 นาที</strong> แล้วเปิดเว็บ <strong>pap-pool.github.io</strong> กด <code>Ctrl+Shift+R</code> เพื่อโหลดใหม่ รีวิวจะขึ้นทันที ✅</div>
+        </div>
+      </div>
+      <div class="warning-box">
+        ⚠️ <strong>สำคัญ:</strong> อัปโหลดแค่ไฟล์ <strong>index.html</strong> เท่านั้น ไม่ต้องอัปโหลดไฟล์อื่น และอย่าลืมกด <code>Ctrl+Shift+R</code> หลังเปิดเว็บเพื่อล้าง cache ครับ
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentSource = 'google';
+
+    function setSource(src) {
+      currentSource = src;
+      document.getElementById('btnGoogle').className   = 'source-btn' + (src === 'google'   ? ' active-google' : '');
+      document.getElementById('btnFacebook').className = 'source-btn' + (src === 'facebook' ? ' active-fb'     : '');
+      updatePreview();
+    }
+
+    function getStars() {
+      return parseInt(document.querySelector('input[name="stars"]:checked')?.value || 5);
+    }
+
+    function starsEmoji(n) {
+      return '⭐'.repeat(n);
+    }
+
+    function getAvatar(name) {
+      if (!name) return '?';
+      // ถ้าชื่อไทย ใช้ตัวแรก, ถ้าภาษาอังกฤษ ใช้ตัวพิมพ์ใหญ่
+      return name.trim().charAt(0).toUpperCase();
+    }
+
+    function getSourceSVG(src) {
+      if (src === 'google') {
+        return `<svg width="13" height="13" viewBox="0 0 24 24" fill="#fbbc04"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Google Maps`;
+      }
+      return `<svg width="13" height="13" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook`;
+    }
+
+    function updatePreview() {
+      const name  = document.getElementById('rvName').value.trim();
+      const date  = document.getElementById('rvDate').value.trim();
+      const text  = document.getElementById('rvText').value.trim();
+      const stars = getStars();
+
+      if (!name && !text) return;
+
+      const box = document.getElementById('previewBox');
+      box.innerHTML = `
+        <div class="rv-preview-card">
+          <div class="rv-preview-header">
+            <div class="rv-preview-avatar">${getAvatar(name) || '?'}</div>
+            <div style="flex:1">
+              <div class="rv-preview-name">${name || '—'}</div>
+              <div class="rv-preview-date">${date || '—'}</div>
+            </div>
+            <div class="rv-preview-stars">${starsEmoji(stars)}</div>
+          </div>
+          <p class="rv-preview-text">"${text || '...'}"</p>
+          <div class="rv-preview-source">${getSourceSVG(currentSource)}</div>
+        </div>
+      `;
+    }
+
+    function generateCode() {
+      const name  = document.getElementById('rvName').value.trim();
+      const date  = document.getElementById('rvDate').value.trim();
+      const text  = document.getElementById('rvText').value.trim();
+      const stars = getStars();
+
+      if (!name || !text) {
+        alert('กรุณากรอกชื่อผู้รีวิว และข้อความรีวิวก่อนครับ');
+        return;
+      }
+
+      updatePreview();
+
+      const srcSVG = currentSource === 'google'
+        ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="#fbbc04"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>\n                  Google Maps`
+        : `<svg width="13" height="13" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>\n                  Facebook`;
+
+      const code = `              <!-- ★ รีวิว: ${name} -->
+              <div class="review-card" data-stars="${stars}">
+                <div class="rv-header">
+                  <div class="rv-avatar">${getAvatar(name)}</div>
+                  <div class="rv-meta">
+                    <span class="rv-name">${name}</span>
+                    <span class="rv-date">${date}</span>
+                  </div>
+                  <div class="rv-stars">${starsEmoji(stars)}</div>
+                </div>
+                <p class="rv-text">"${text}"</p>
+                <div class="rv-source">
+                  ${srcSVG}
+                </div>
+              </div>
+              <!-- สิ้นสุดรีวิว: ${name} -->`;
+
+      document.getElementById('codeOutput').textContent = code;
+      document.getElementById('codeWrap').style.display = 'block';
+      document.getElementById('btnCopy').textContent = '📋 Copy โค้ด';
+      document.getElementById('btnCopy').classList.remove('copied');
+
+      // scroll ไปดู code
+      document.getElementById('codeWrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function copyCode() {
+      const code = document.getElementById('codeOutput').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.getElementById('btnCopy');
+        btn.textContent = '✅ คัดลอกแล้ว!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copy โค้ด';
+          btn.classList.remove('copied');
+        }, 3000);
+      }).catch(() => {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = code;
+        ta.style.cssText = 'position:fixed;top:-9999px;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        document.getElementById('btnCopy').textContent = '✅ คัดลอกแล้ว!';
+      });
+    }
+  </script>
+
+</body>
+</html>
