@@ -4978,3 +4978,72 @@ ul { list-style: none; }
   line-height: 1.5;
 }
 .send-step-note strong { color: #92400e; }
+
+/* ============================================================
+   Send Modal — Device Guide (มือถือ vs คอม)
+   ============================================================ */
+.send-modal-device-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.send-device-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+.send-device-mobile {
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  color: #14532d;
+}
+.send-device-mobile strong { color: #15803d; }
+.send-device-desktop {
+  background: #eff6ff;
+  border: 1.5px solid #93c5fd;
+  color: #1e3a5f;
+}
+.send-device-desktop strong { color: #1d4ed8; }
+.send-device-icon {
+  font-size: 1.3rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.send-device-sub {
+  display: block;
+  font-size: 0.78rem;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+/* Form submit note — 2 แถวสี */
+.form-submit-note {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+.note-mobile {
+  font-family: var(--font-body);
+  font-size: 0.80rem;
+  color: #15803d;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+.note-desktop {
+  font-family: var(--font-body);
+  font-size: 0.80rem;
+  color: #1d4ed8;
+  background: #eff6ff;
+  border: 1px solid #93c5fd;
+  border-radius: 8px;
+  padding: 5px 10px;
+}

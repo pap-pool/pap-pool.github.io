@@ -649,7 +649,10 @@
                 <span>ส่งผ่าน Messenger</span>
               </button>
             </div>
-            <p class="form-submit-note">💻 สำหรับการใช้งานบนคอมพิวเตอร์ — กด Copy แล้วเปิด LINE หรือ Messenger เพื่อส่ง</p>
+            <p class="form-submit-note">
+              <span class="note-mobile">📱 มือถือ — กดปุ่มด้านบนได้เลย LINE/Messenger จะเปิดทันที</span>
+              <span class="note-desktop">💻 คอมพิวเตอร์ — ระบบจะ Copy ข้อความให้ แล้ววางใน LINE/Messenger</span>
+            </p>
           </div>
 
         </form>
@@ -1126,7 +1129,23 @@
       <div class="send-modal-header">
         <div class="send-modal-icon">✅</div>
         <h3 class="send-modal-title">ข้อความพร้อมส่งแล้ว!</h3>
-        <p class="send-modal-sub">💻 สำหรับการใช้งานบน <strong>คอมพิวเตอร์</strong> เท่านั้น</p>
+        <div class="send-modal-device-guide">
+          <div class="send-device-row send-device-mobile">
+            <span class="send-device-icon">📱</span>
+            <div>
+              <strong>ใช้มือถือ</strong> — ปิด popup นี้ แล้วกดปุ่ม<br/>
+              "ส่งผ่าน LINE" หรือ "ส่งผ่าน Messenger"<br/>
+              <span class="send-device-sub">แอปจะเปิดทันที → กดค้างช่องพิมพ์ → Paste → ส่ง</span>
+            </div>
+          </div>
+          <div class="send-device-row send-device-desktop">
+            <span class="send-device-icon">💻</span>
+            <div>
+              <strong>ใช้คอมพิวเตอร์</strong> — ใช้แท็บด้านล่างนี้ได้เลย<br/>
+              <span class="send-device-sub">กด Copy → เปิด LINE หรือ Messenger → Ctrl+V → ส่ง</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="send-modal-tabs">
