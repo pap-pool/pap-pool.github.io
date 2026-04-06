@@ -19,11 +19,11 @@ document.addEventListener('DOMContentLoaded', function () {
    MESSENGER CONFIG — เปลี่ยน URL ตรงนี้จุดเดียว
    ใส่ชื่อ Facebook Page เช่น "PapPoolVilla" หรือ URL เต็ม
    ============================================================ */
-window.MESSENGER_URL = 'https://www.facebook.com/pappoolvilla/#';
+window.MESSENGER_URL = 'https://www.facebook.com/pappoolvilla/';
 
 // Auto-update all Messenger links on page load
 document.addEventListener('DOMContentLoaded', function () {
-  if (window.MESSENGER_URL && !window.MESSENGER_URL.includes('YOUR_PAGE_NAME')) {
+  if (window.MESSENGER_URL) {
     document.querySelectorAll('a[href*="YOUR_PAGE_NAME"]').forEach(function (el) {
       el.href = window.MESSENGER_URL;
     });
@@ -912,8 +912,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function openSendModal(channel) {
     const msg          = buildMessage();
     const lineUrl      = 'https://line.me/ti/p/@alo2064u';
-    const messengerUrl = (window.MESSENGER_URL && !window.MESSENGER_URL.includes('YOUR_PAGE_NAME'))
-      ? window.MESSENGER_URL : 'https://www.facebook.com/pappoolvilla/';
+    const messengerUrl = window.MESSENGER_URL || 'https://www.facebook.com/pappoolvilla/';
 
     copyToClipboard(msg).catch(() => {});
 
